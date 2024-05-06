@@ -15,6 +15,8 @@ library(httr)
 library(ggplot2)
 ```
 
+## **SCRAPING STATS FROM 18-19 SEASON**
+
 ```{r}
 goalkeeping18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/keepers/2018-2019-Champions-League-Stats")
 
@@ -119,6 +121,8 @@ for(i in 1:19) {
 
 shotcreation18.19 <- shotcreation18.19[-1,c(-14:-19)]
 ```
+
+## **SCRAPING STATS FROM 19-20 SEASON**
 
 ```{r}
 goalkeeping19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/keepers/2019-2020-Champions-League-Stats")
@@ -225,6 +229,8 @@ for(i in 1:20) {
 shooting19.20 <- shooting19.20[-1,]
 ```
 
+## **SCRAPING STATS FROM 20-21 SEASON**
+
 ```{r}
 goalkeeping20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepers/2020-2021-Champions-League-Stats")
 
@@ -329,6 +335,8 @@ for(i in 1:20) {
 
 shooting20.21 <- shooting20.21[-1,]
 ```
+
+## **SCRAPING STATS FROM 21-22 SEASON**
 
 ```{r}
 goalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/keepers/2021-2022-Champions-League-Stats")
@@ -435,6 +443,8 @@ for(i in 1:20) {
 shooting21.22 <- shooting21.22[-1,]
 ```
 
+## **SCRAPING STATS FROM 22-23 SEASON**
+
 ```{r}
 goalkeeping22.23 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepers/2020-2021-Champions-League-Stats")
 
@@ -540,6 +550,8 @@ for(i in 1:20) {
 shooting22.23 <- shooting22.23[-1,]
 ```
 
+## **SCRAPING PERFORMANCE DATA FOR EACH SEASON**
+
 ```{r}
 placement22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
   html_nodes("#results2022-202380_overall th.right") |>
@@ -635,37 +647,129 @@ performance18.19 <- tibble(squad18.19, placement18.19) |>
          Rank = placement18.19)
 ```
 
+## **JOINS 18-19**
+
 ```{r}
 totalgoalkeeping18.19 <- goalkeeping18.19 |>
   right_join(advancedgoalkeeping18.19, join_by(Squad == Squad))
-```
-
-```{r}
 ds18.19 <- totalgoalkeeping18.19 |>
   right_join(defensive18.19, join_by(Squad == Squad))
-```
-
-```{r}
 ds18.19 <- performance18.19 |>
   right_join(ds18.19, join_by(Squad == Squad))
 ```
 
 ```{r}
-gs18.19 <- shotcreation18.19 |>
-  right_join(shooting18.19, join_by(Squad == Squad))
+ps18.19 <- possession18.19 |>
+  right_join(passing18.19, join_by(Squad == Squad))
+ps18.19 <- performance18.19 |>
+  right_join(ps18.19, join_by(Squad == Squad))
 ```
 
 ```{r}
+gs18.19 <- shotcreation18.19 |>
+  right_join(shooting18.19, join_by(Squad == Squad))
 gs18.19 <- performance18.19 |>
   right_join(ps18.19, join_by(Squad == Squad))
 ```
 
+## **JOINS 19-20**
+
 ```{r}
-ps18.19 <- possession18.19 |>
-  right_join(passing18.19, join_by(Squad == Squad))
+totalgoalkeeping19.20 <- goalkeeping19.20 |>
+  right_join(advancedgoalkeeping19.20, join_by(Squad == Squad))
+ds19.20 <- totalgoalkeeping19.20 |>
+  right_join(defensive19.20, join_by(Squad == Squad))
+ds19.20 <- performance19.20 |>
+  right_join(ds19.20, join_by(Squad == Squad))
 ```
 
 ```{r}
-ps18.19 <- performance18.19 |>
-  right_join(ps18.19, join_by(Squad == Squad))
+ps19.20 <- possession19.20 |>
+  right_join(passing19.20, join_by(Squad == Squad))
+ps19.20 <- performance19.20 |>
+  right_join(ps19.20, join_by(Squad == Squad))
 ```
+
+```{r}
+gs19.20 <- shotcreation19.20 |>
+  right_join(shooting19.20, join_by(Squad == Squad))
+gs19.20 <- performance19.20 |>
+  right_join(ps19.20, join_by(Squad == Squad))
+```
+
+## **JOINS 20-21**
+
+```{r}
+totalgoalkeeping20.21 <- goalkeeping20.21 |>
+  right_join(advancedgoalkeeping20.21, join_by(Squad == Squad))
+ds20.21 <- totalgoalkeeping20.21 |>
+  right_join(defensive20.21, join_by(Squad == Squad))
+ds20.21 <- performance20.21 |>
+  right_join(ds20.21, join_by(Squad == Squad))
+```
+
+```{r}
+ps20.21 <- possession20.21 |>
+  right_join(passing20.21, join_by(Squad == Squad))
+ps20.21 <- performance20.21 |>
+  right_join(ps20.21, join_by(Squad == Squad))
+```
+
+```{r}
+gs20.21 <- shotcreation20.21 |>
+  right_join(shooting20.21, join_by(Squad == Squad))
+gs20.21 <- performance20.21 |>
+  right_join(ps20.21, join_by(Squad == Squad))
+```
+
+## **JOINS 21-22**
+
+```{r}
+totalgoalkeeping21.22 <- goalkeeping21.22 |>
+  right_join(advancedgoalkeeping21.22, join_by(Squad == Squad))
+ds21.22 <- totalgoalkeeping21.22 |>
+  right_join(defensive21.22, join_by(Squad == Squad))
+ds21.22 <- performance21.22 |>
+  right_join(ds21.22, join_by(Squad == Squad))
+```
+
+```{r}
+ps21.22 <- possession21.22 |>
+  right_join(passing21.22, join_by(Squad == Squad))
+ps21.22 <- performance21.22 |>
+  right_join(ps21.22, join_by(Squad == Squad))
+```
+
+```{r}
+gs21.22 <- shotcreation21.22 |>
+  right_join(shooting21.22, join_by(Squad == Squad))
+gs21.22 <- performance21.22 |>
+  right_join(ps21.22, join_by(Squad == Squad))
+```
+
+## **JOINS 22-23**
+
+```{r}
+totalgoalkeeping22.23 <- goalkeeping22.23 |>
+  right_join(advancedgoalkeeping22.23, join_by(Squad == Squad))
+ds22.23 <- totalgoalkeeping22.23 |>
+  right_join(defensive22.23, join_by(Squad == Squad))
+ds22.23 <- performance22.23 |>
+  right_join(ds22.23, join_by(Squad == Squad))
+```
+
+```{r}
+ps22.23 <- possession22.23 |>
+  right_join(passing22.23, join_by(Squad == Squad))
+ps22.23 <- performance22.23 |>
+  right_join(ps22.23, join_by(Squad == Squad))
+```
+
+```{r}
+gs22.23 <- shotcreation22.23 |>
+  right_join(shooting22.23, join_by(Squad == Squad))
+gs22.23 <- performance22.23 |>
+  right_join(ps22.23, join_by(Squad == Squad))
+```
+
+
