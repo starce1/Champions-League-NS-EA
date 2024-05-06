@@ -1,0 +1,671 @@
+---
+title: "Data Acquisition Mastersheet"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
+library(ggplot2)
+```
+
+```{r}
+goalkeeping18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/keepers/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(goalkeeping18.19, css = "table")
+
+goalkeeping18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:21) {
+  new_column_name <- goalkeeping18.19[1,i]
+  colnames(goalkeeping18.19)[i] <- new_column_name
+}
+
+goalkeeping18.19 <- goalkeeping18.19[-1,-21]
+```
+
+```{r}
+advancedgoalkeeping18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/keepersadv/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(advancedgoalkeeping18.19, css = "table")
+
+advancedgoalkeeping18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:28) {
+  new_column_name <- advancedgoalkeeping18.19[1,i]
+  colnames(advancedgoalkeeping18.19)[i] <- new_column_name
+}
+
+advancedgoalkeeping18.19 <- advancedgoalkeeping18.19[-1,c(-20,-21,-22)]
+```
+
+```{r}
+defensive18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/defense/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(defensive18.19, css = "table")
+
+defensive18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- defensive18.19[1,i]
+  colnames(defensive18.19)[i] <- new_column_name
+}
+
+defensive18.19 <- defensive18.19[-1,-9]
+```
+
+```{r}
+passing18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/passing/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(passing18.19, css = "table")
+
+passing18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- passing18.19[1,i]
+  colnames(passing18.19)[i] <- new_column_name
+}
+
+passing18.19 <- passing18.19[-1, c(-9:-17)]
+```
+
+```{r}
+possession18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/possession/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(possession18.19, css = "table")
+
+possession18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- possession18.19[1,i]
+  colnames(possession18.19)[i] <- new_column_name
+}
+
+possession18.19 <- possession18.19[-1,]
+```
+
+```{r}
+shooting18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/shooting/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(shooting18.19, css = "table")
+
+shooting18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting18.19[1,i]
+  colnames(shooting18.19)[i] <- new_column_name
+}
+
+shooting18.19 <- shooting18.19[-1,]
+```
+
+```{r}
+shotcreation18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/gca/2018-2019-Champions-League-Stats")
+
+table <- html_nodes(shotcreation18.19, css = "table")
+
+shotcreation18.19 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation18.19[1,i]
+  colnames(shotcreation18.19)[i] <- new_column_name
+}
+
+shotcreation18.19 <- shotcreation18.19[-1,c(-14:-19)]
+```
+
+```{r}
+goalkeeping19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/keepers/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(goalkeeping19.20, css = "table")
+
+goalkeeping19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:21) {
+  new_column_name <- goalkeeping19.20[1,i]
+  colnames(goalkeeping19.20)[i] <- new_column_name
+}
+
+goalkeeping19.20 <- goalkeeping19.20[-1,]
+```
+
+```{r}
+advancedgoalkeeping19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/keepersadv/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(advancedgoalkeeping19.20, css = "table")
+
+advancedgoalkeeping19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:28) {
+  new_column_name <- advancedgoalkeeping19.20[1,i]
+  colnames(advancedgoalkeeping19.20)[i] <- new_column_name
+}
+
+advancedgoalkeeping19.20 <- advancedgoalkeeping19.20[-1,]
+```
+
+```{r}
+defensive19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/defense/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(defensive19.20, css = "table")
+
+defensive19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- defensive19.20[1,i]
+  colnames(defensive19.20)[i] <- new_column_name
+}
+
+defensive19.20 <- defensive19.20[-1,]
+```
+
+```{r}
+passing19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/passing/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(passing19.20, css = "table")
+
+passing19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- passing19.20[1,i]
+  colnames(passing19.20)[i] <- new_column_name
+}
+
+passing19.20 <- passing19.20[-1,]
+```
+
+```{r}
+possession19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/possession/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(possession19.20, css = "table")
+
+possession19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- possession19.20[1,i]
+  colnames(possession19.20)[i] <- new_column_name
+}
+
+possession19.20 <- possession19.20[-1,]
+```
+
+```{r}
+shotcreation19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/gca/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(shotcreation19.20, css = "table")
+
+shotcreation19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation19.20[1,i]
+  colnames(shotcreation19.20)[i] <- new_column_name
+}
+
+shotcreation19.20 <- shotcreation19.20[-1,]
+```
+
+```{r}
+shooting19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/shooting/2019-2020-Champions-League-Stats")
+
+table <- html_nodes(shooting19.20, css = "table")
+
+shooting19.20 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting19.20[1,i]
+  colnames(shooting19.20)[i] <- new_column_name
+}
+
+shooting19.20 <- shooting19.20[-1,]
+```
+
+```{r}
+goalkeeping20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepers/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(goalkeeping20.21, css = "table")
+
+goalkeeping20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:21) {
+  new_column_name <- goalkeeping20.21[1,i]
+  colnames(goalkeeping20.21)[i] <- new_column_name
+}
+
+goalkeeping20.21 <- goalkeeping20.21[-1,]
+```
+
+```{r}
+advancedgoalkeeping20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepersadv/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(advancedgoalkeeping20.21, css = "table")
+
+advancedgoalkeeping20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:28) {
+  new_column_name <- advancedgoalkeeping20.21[1,i]
+  colnames(advancedgoalkeeping20.21)[i] <- new_column_name
+}
+
+advancedgoalkeeping20.21 <- advancedgoalkeeping20.21[-1,]
+```
+
+```{r}
+defensive20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/defense/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(defensive20.21, css = "table")
+
+defensive20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- defensive20.21[1,i]
+  colnames(defensive20.21)[i] <- new_column_name
+}
+
+defensive20.21 <- defensive20.21[-1,]
+```
+
+```{r}
+passing20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/passing/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(passing20.21, css = "table")
+
+passing20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- passing20.21[1,i]
+  colnames(passing20.21)[i] <- new_column_name
+}
+
+passing20.21 <- passing20.21[-1,]
+```
+
+```{r}
+possession20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/possession/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(possession20.21, css = "table")
+
+possession20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- possession20.21[1,i]
+  colnames(possession20.21)[i] <- new_column_name
+}
+
+possession20.21 <- possession20.21[-1,]
+```
+
+```{r}
+shotcreation20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/gca/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(shotcreation20.21, css = "table")
+
+shotcreation20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation20.21[1,i]
+  colnames(shotcreation20.21)[i] <- new_column_name
+}
+
+shotcreation20.21 <- shotcreation20.21[-1,]
+```
+
+```{r}
+shooting20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/shooting/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(shooting20.21, css = "table")
+
+shooting20.21 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting20.21[1,i]
+  colnames(shooting20.21)[i] <- new_column_name
+}
+
+shooting20.21 <- shooting20.21[-1,]
+```
+
+```{r}
+goalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/keepers/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(goalkeeping21.22, css = "table")
+
+goalkeeping21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:21) {
+  new_column_name <- goalkeeping21.22[1,i]
+  colnames(goalkeeping21.22)[i] <- new_column_name
+}
+
+goalkeeping21.22 <- goalkeeping21.22[-1,]
+```
+
+```{r}
+advancedgoalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepersadv/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(advancedgoalkeeping21.22, css = "table")
+
+advancedgoalkeeping21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:28) {
+  new_column_name <- advancedgoalkeeping21.22[1,i]
+  colnames(advancedgoalkeeping21.22)[i] <- new_column_name
+}
+
+advancedgoalkeeping21.22 <- advancedgoalkeeping21.22[-1,]
+```
+
+```{r}
+defensive21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/defense/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(defensive21.22, css = "table")
+
+defensive21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- defensive21.22[1,i]
+  colnames(defensive21.22)[i] <- new_column_name
+}
+
+defensive21.22 <- defensive21.22[-1,]
+```
+
+```{r}
+passing21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/passing/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(passing21.22, css = "table")
+
+passing21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- passing21.22[1,i]
+  colnames(passing21.22)[i] <- new_column_name
+}
+
+passing21.22 <- passing21.22[-1,]
+```
+
+```{r}
+possession21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/possession/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(possession21.22, css = "table")
+
+possession21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- possession21.22[1,i]
+  colnames(possession21.22)[i] <- new_column_name
+}
+
+possession21.22 <- possession21.22[-1,]
+```
+
+```{r}
+shotcreation21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/gca/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(shotcreation21.22, css = "table")
+
+shotcreation21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation21.22[1,i]
+  colnames(shotcreation21.22)[i] <- new_column_name
+}
+
+shotcreation21.22 <- shotcreation21.22[-1,]
+```
+
+```{r}
+shooting21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/shooting/2021-2022-Champions-League-Stats")
+
+table <- html_nodes(shooting21.22, css = "table")
+
+shooting21.22 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting21.22[1,i]
+  colnames(shooting21.22)[i] <- new_column_name
+}
+
+shooting21.22 <- shooting21.22[-1,]
+```
+
+```{r}
+goalkeeping22.23 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepers/2020-2021-Champions-League-Stats")
+
+table <- html_nodes(goalkeeping22.23, css = "table")
+
+goalkeeping22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:21) {
+  new_column_name <- goalkeeping22.23[1,i]
+  colnames(goalkeeping22.23)[i] <- new_column_name
+}
+
+goalkeeping22.23 <- goalkeeping22.23[-1,]
+```
+
+```{r}
+advancedgoalkeeping22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/keepersadv/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(advancedgoalkeeping22.23, css = "table")
+
+advancedgoalkeeping22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:28) {
+  new_column_name <- advancedgoalkeeping22.23[1,i]
+  colnames(advancedgoalkeeping22.23)[i] <- new_column_name
+}
+
+advancedgoalkeeping22.23 <- advancedgoalkeeping22.23[-1,]
+```
+
+```{r}
+defensive22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/defense/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(defensive22.23, css = "table")
+
+defensive22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- defensive22.23[1,i]
+  colnames(defensive22.23)[i] <- new_column_name
+}
+
+defensive22.23 <- defensive22.23[-1,]
+```
+
+```{r}
+passing22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/passing/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(passing22.23, css = "table")
+
+passing22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- passing22.23[1,i]
+  colnames(passing22.23)[i] <- new_column_name
+}
+
+passing22.23 <- passing22.23[-1,]
+```
+
+```{r}
+possession22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/possession/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(possession22.23, css = "table")
+
+possession22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:26) {
+  new_column_name <- possession22.23[1,i]
+  colnames(possession22.23)[i] <- new_column_name
+}
+
+possession22.23 <- possession22.23[-1,]
+```
+
+```{r}
+shotcreation22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/gca/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(shotcreation22.23, css = "table")
+
+shotcreation22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation22.23[1,i]
+  colnames(shotcreation22.23)[i] <- new_column_name
+}
+
+shotcreation22.23 <- shotcreation22.23[-1,]
+```
+
+```{r}
+shooting22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/shooting/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(shooting22.23, css = "table")
+
+shooting22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting22.23[1,i]
+  colnames(shooting22.23)[i] <- new_column_name
+}
+
+shooting22.23 <- shooting22.23[-1,]
+```
+
+```{r}
+placement22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
+  html_nodes("#results2022-202380_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
+  html_nodes("#results2022-202380_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance22.23 <- tibble(squad22.23, placement22.23) |>
+  filter(str_detect(squad22.23, "[1-9A-Z]")) |>
+  rename(Squad = squad22.23,
+         Rank = placement22.23)
+```
+
+```{r}
+placement21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/2021-2022-Champions-League-Stats") |>
+  html_nodes("#results2021-202280_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/2021-2022-Champions-League-Stats") |>
+  html_nodes("#results2021-202280_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance21.22 <- tibble(squad21.22, placement21.22) |>
+  filter(str_detect(squad21.22, "[1-9A-Z]")) |>
+  rename(Squad = squad21.22,
+         Rank = placement21.22)
+```
+
+```{r}
+placement20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/2020-2021-Champions-League-Stats") |>
+  html_nodes("#results2020-202180_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad20.21 <- read_html("https://fbref.com/en/comps/8/2020-2021/2020-2021-Champions-League-Stats") |>
+  html_nodes("#results2020-202180_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance20.21 <- tibble(squad20.21, placement20.21) |>
+  filter(str_detect(squad20.21, "[1-9A-Z]")) |>
+  rename(Squad = squad20.21,
+         Rank = placement20.21)
+```
+
+```{r}
+placement19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/2019-2020-Champions-League-Stats") |>
+  html_nodes("#results2019-202080_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad19.20 <- read_html("https://fbref.com/en/comps/8/2019-2020/2019-2020-Champions-League-Stats") |>
+  html_nodes("#results2019-202080_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance19.20 <- tibble(squad19.20, placement19.20) |>
+  filter(str_detect(squad19.20, "[1-9A-Z]")) |>
+  rename(Squad = squad19.20,
+         Rank = placement19.20)
+```
+
+```{r}
+placement18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/2018-2019-Champions-League-Stats") |>
+  html_nodes("#results2018-201980_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad18.19 <- read_html("https://fbref.com/en/comps/8/2018-2019/2018-2019-Champions-League-Stats") |>
+  html_nodes("#results2018-201980_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance18.19 <- tibble(squad18.19, placement18.19) |>
+  filter(str_detect(squad18.19, "[1-9A-Z]")) |>
+  rename(Squad = squad18.19, 
+         Rank = placement18.19)
+```
+
+```{r}
+totalgoalkeeping18.19 <- goalkeeping18.19 |>
+  right_join(advancedgoalkeeping18.19, join_by(Squad == Squad))
+```
+
+```{r}
+ds18.19 <- totalgoalkeeping18.19 |>
+  right_join(defensive18.19, join_by(Squad == Squad))
+```
+
+```{r}
+ds18.19 <- performance18.19 |>
+  right_join(ds18.19, join_by(Squad == Squad))
+```
+
+```{r}
+gs18.19 <- shotcreation18.19 |>
+  right_join(shooting18.19, join_by(Squad == Squad))
+```
+
+```{r}
+gs18.19 <- performance18.19 |>
+  right_join(ps18.19, join_by(Squad == Squad))
+```
+
+```{r}
+ps18.19 <- possession18.19 |>
+  right_join(passing18.19, join_by(Squad == Squad))
+```
+
+```{r}
+ps18.19 <- performance18.19 |>
+  right_join(ps18.19, join_by(Squad == Squad))
+```
