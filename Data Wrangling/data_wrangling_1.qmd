@@ -771,5 +771,3 @@ gs22.23 <- shotcreation22.23 |>
 gs22.23 <- performance22.23 |>
   right_join(ps22.23, join_by(Squad == Squad))
 ```
-
-
