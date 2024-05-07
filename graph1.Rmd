@@ -16,68 +16,17 @@ library(stringr)
 library(rvest)
 library(httr)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
-shotcreation22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/gca/2022-2023-Champions-League-Stats")
-
-table <- html_nodes(shotcreation22.23, css = "table")
-
-shotcreation22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
-
-for(i in 1:19) {
-  new_column_name <- shotcreation22.23[1,i]
-  colnames(shotcreation22.23)[i] <- new_column_name
-}
-
-shotcreation22.23 <- shotcreation22.23[-1,c(-14:-19)]
+gs <- read_csv("gs.csv")
+ps <- read_csv("ps.csv")
+ds <- read_csv("ds.csv")
 ```
 
-```{r}
-shooting22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/shooting/2022-2023-Champions-League-Stats")
 
-table <- html_nodes(shooting22.23, css = "table")
-
-shooting22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
-
-for(i in 1:20) {
-  new_column_name <- shooting22.23[1,i]
-  colnames(shooting22.23)[i] <- new_column_name
-}
-
-shooting22.23 <- shooting22.23[-1,]
-```
-
-```{r}
-placement22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
-  html_nodes("#results2022-202380_overall th.right") |>
-  html_text()
-```
-
-```{r}
-squad22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
-  html_nodes("#results2022-202380_overall .left:nth-child(2)") |>
-  html_text()
-```
-
-```{r}
-performance22.23 <- tibble(squad22.23, placement22.23) |>
-  filter(str_detect(squad22.23, "[1-9A-Z]")) |>
-  rename(Squad = squad22.23,
-         Rank = placement22.23)
-```
-
-```{r}
-gs22.23 <- shotcreation22.23 |>
-  right_join(shooting22.23, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number),
-         prop_SCA_dead = PassDead/SCA,
-         performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"))
-gs22.23 <- performance22.23 |>
-  right_join(gs22.23, join_by(Squad == Squad))
-```
-
-```{r}
+```{r, echo = FALSE}
 titlePanel("Goal Metrics") 
 
 inputPanel(
@@ -90,26 +39,40 @@ inputPanel(
                           "Shot on Target %" = "SoT%", 
                           "Shot Creation Actions per 90 Minutes" = "SCA90",
                           "Proportion of Shot Creating Actions from Dead Balls" = "prop_SCA_dead")),
+  selectInput("d", label = "Year",
+  choices = c("18/19" = "18/19", 
+              "19/20" = "19/20",
+              "20/21" = "20/21",
+              "21/22" = "21/22",
+              "22/23" = "22/23")),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
 renderPlot({
   if (input$rank_pos)
-  ggplot(gs22.23, aes(x = Gls, y = .data[[input$y]])) +
+  gs |>
+    filter(Year %in% c(input$d)) |>
+  ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black")
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
     else if (!input$rank_pos)
-      ggplot(gs22.23, aes(x = Gls, y = .data[[input$y]])) +
+    gs |>
+    filter(Year %in% c(input$d)) |>
+      ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black")
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
 })
 ```
 
-```{r} 
+```{r, echo = FALSE} 
 #Include Feature to change the year
 renderPlot({
-ggplot(gs22.23) +
+gs |>
+    filter(Year %in% c(input$d)) |>
+ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
-  scale_x_discrete(limits = c("1", "2", "SF", "QF", "R16", "GR"))
+  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
 })
 ```

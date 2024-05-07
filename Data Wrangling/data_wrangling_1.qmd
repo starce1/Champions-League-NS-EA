@@ -566,7 +566,9 @@ squad22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champi
 performance22.23 <- tibble(squad22.23, placement22.23) |>
   filter(str_detect(squad22.23, "[1-9A-Z]")) |>
   rename(Squad = squad22.23,
-         Rank = placement22.23)
+         Rank = placement22.23) 
+performance22.23[1,2] = "W"
+performance22.23[2,2] = "F"
 ```
 
 ```{r}
@@ -586,6 +588,8 @@ performance21.22 <- tibble(squad21.22, placement21.22) |>
   filter(str_detect(squad21.22, "[1-9A-Z]")) |>
   rename(Squad = squad21.22,
          Rank = placement21.22)
+performance21.22[1,2] = "W"
+performance21.22[2,2] = "F"
 ```
 
 ```{r}
@@ -813,6 +817,9 @@ gs22.23 <- shotcreation22.23 |>
 gs22.23 <- performance22.23 |>
   right_join(gs22.23, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
+gs22.23[1,2] = "W"
+gs22.23[2,2] = "F"
+  
 ```
 
 ## **BINDING ROWS AND ADDING USER CREATED VARIABLES**
