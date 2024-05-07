@@ -653,21 +653,24 @@ performance18.19 <- tibble(squad18.19, placement18.19) |>
 totalgoalkeeping18.19 <- goalkeeping18.19 |>
   right_join(advancedgoalkeeping18.19, join_by(Squad == Squad))
 ds18.19 <- totalgoalkeeping18.19 |>
-  right_join(defensive18.19, join_by(Squad == Squad))
+  right_join(defensive18.19, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ds18.19 <- performance18.19 |>
   right_join(ds18.19, join_by(Squad == Squad))
 ```
 
 ```{r}
 ps18.19 <- possession18.19 |>
-  right_join(passing18.19, join_by(Squad == Squad))
+  right_join(passing18.19, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ps18.19 <- performance18.19 |>
   right_join(ps18.19, join_by(Squad == Squad))
 ```
 
 ```{r}
 gs18.19 <- shotcreation18.19 |>
-  right_join(shooting18.19, join_by(Squad == Squad))
+  right_join(shooting18.19, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 gs18.19 <- performance18.19 |>
   right_join(gs18.19, join_by(Squad == Squad))
 ```
@@ -678,21 +681,24 @@ gs18.19 <- performance18.19 |>
 totalgoalkeeping19.20 <- goalkeeping19.20 |>
   right_join(advancedgoalkeeping19.20, join_by(Squad == Squad))
 ds19.20 <- totalgoalkeeping19.20 |>
-  right_join(defensive19.20, join_by(Squad == Squad))
+  right_join(defensive19.20, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ds19.20 <- performance19.20 |>
   right_join(ds19.20, join_by(Squad == Squad))
 ```
 
 ```{r}
 ps19.20 <- possession19.20 |>
-  right_join(passing19.20, join_by(Squad == Squad))
+  right_join(passing19.20, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ps19.20 <- performance19.20 |>
   right_join(ps19.20, join_by(Squad == Squad))
 ```
 
 ```{r}
 gs19.20 <- shotcreation19.20 |>
-  right_join(shooting19.20, join_by(Squad == Squad))
+  right_join(shooting19.20, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 gs19.20 <- performance19.20 |>
   right_join(gs19.20, join_by(Squad == Squad))
 ```
@@ -703,21 +709,24 @@ gs19.20 <- performance19.20 |>
 totalgoalkeeping20.21 <- goalkeeping20.21 |>
   right_join(advancedgoalkeeping20.21, join_by(Squad == Squad))
 ds20.21 <- totalgoalkeeping20.21 |>
-  right_join(defensive20.21, join_by(Squad == Squad))
+  right_join(defensive20.21, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ds20.21 <- performance20.21 |>
   right_join(ds20.21, join_by(Squad == Squad))
 ```
 
 ```{r}
 ps20.21 <- possession20.21 |>
-  right_join(passing20.21, join_by(Squad == Squad))
+  right_join(passing20.21, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ps20.21 <- performance20.21 |>
   right_join(ps20.21, join_by(Squad == Squad))
 ```
 
 ```{r}
 gs20.21 <- shotcreation20.21 |>
-  right_join(shooting20.21, join_by(Squad == Squad))
+  right_join(shooting20.21, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 gs20.21 <- performance20.21 |>
   right_join(gs20.21, join_by(Squad == Squad))
 ```
@@ -728,21 +737,24 @@ gs20.21 <- performance20.21 |>
 totalgoalkeeping21.22 <- goalkeeping21.22 |>
   right_join(advancedgoalkeeping21.22, join_by(Squad == Squad))
 ds21.22 <- totalgoalkeeping21.22 |>
-  right_join(defensive21.22, join_by(Squad == Squad))
+  right_join(defensive21.22, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ds21.22 <- performance21.22 |>
   right_join(ds21.22, join_by(Squad == Squad))
 ```
 
 ```{r}
 ps21.22 <- possession21.22 |>
-  right_join(passing21.22, join_by(Squad == Squad))
+  right_join(passing21.22, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ps21.22 <- performance21.22 |>
   right_join(ps21.22, join_by(Squad == Squad))
 ```
 
 ```{r}
 gs21.22 <- shotcreation21.22 |>
-  right_join(shooting21.22, join_by(Squad == Squad))
+  right_join(shooting21.22, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 gs21.22 <- performance21.22 |>
   right_join(gs21.22, join_by(Squad == Squad))
 ```
@@ -753,14 +765,16 @@ gs21.22 <- performance21.22 |>
 totalgoalkeeping22.23 <- goalkeeping22.23 |>
   right_join(advancedgoalkeeping22.23, join_by(Squad == Squad))
 ds22.23 <- totalgoalkeeping22.23 |>
-  right_join(defensive22.23, join_by(Squad == Squad))
+  right_join(defensive22.23, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ds22.23 <- performance22.23 |>
   right_join(ds22.23, join_by(Squad == Squad))
 ```
 
 ```{r}
 ps22.23 <- possession22.23 |>
-  right_join(passing22.23, join_by(Squad == Squad))
+  right_join(passing22.23, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number))
 ps22.23 <- performance22.23 |>
   right_join(ps22.23, join_by(Squad == Squad))
 ```
