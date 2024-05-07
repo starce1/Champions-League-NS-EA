@@ -1,0 +1,106 @@
+---
+title: "Graph1"
+output: html_document
+date: "2024-05-06"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
+library(ggplot2)
+```
+
+```{r}
+shotcreation22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/gca/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(shotcreation22.23, css = "table")
+
+shotcreation22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:19) {
+  new_column_name <- shotcreation22.23[1,i]
+  colnames(shotcreation22.23)[i] <- new_column_name
+}
+
+shotcreation22.23 <- shotcreation22.23[-1,c(-14:-19)]
+```
+
+```{r}
+shooting22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/shooting/2022-2023-Champions-League-Stats")
+
+table <- html_nodes(shooting22.23, css = "table")
+
+shooting22.23 <- html_table(table, header = TRUE, fill = TRUE)[[1]]
+
+for(i in 1:20) {
+  new_column_name <- shooting22.23[1,i]
+  colnames(shooting22.23)[i] <- new_column_name
+}
+
+shooting22.23 <- shooting22.23[-1,]
+```
+
+```{r}
+placement22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
+  html_nodes("#results2022-202380_overall th.right") |>
+  html_text()
+```
+
+```{r}
+squad22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/2022-2023-Champions-League-Stats") |>
+  html_nodes("#results2022-202380_overall .left:nth-child(2)") |>
+  html_text()
+```
+
+```{r}
+performance22.23 <- tibble(squad22.23, placement22.23) |>
+  filter(str_detect(squad22.23, "[1-9A-Z]")) |>
+  rename(Squad = squad22.23,
+         Rank = placement22.23)
+```
+
+```{r}
+gs22.23 <- shotcreation22.23 |>
+  right_join(shooting22.23, join_by(Squad == Squad)) |>
+  mutate(across(-1, parse_number),
+         prop_SCA_dead = PassDead/SCA)
+gs22.23 <- performance22.23 |>
+  right_join(gs22.23, join_by(Squad == Squad))
+```
+
+```{r}
+titlePanel("Goal Metrics") 
+
+inputPanel(
+  selectInput("y", label = "Y-Axis Variable",
+              choices = c(
+                          "Expected Goals" = "xG",
+                          "Non-Penalty Expected Goals" = "npxG",
+                          "Average Shot Distance" = "Dist",
+                          "Shots per 90 Minutes" = "Sh/90",
+                          "Shot on Target %" = "SoT%", 
+                          "Shot Creation Actions per 90 Minutes" = "SCA90",
+                          "Proportion of Shot Creating Actions from Dead Balls" = "prop_SCA_dead")),
+checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+)
+
+renderPlot({
+  if (input$rank_pos)
+  ggplot(gs22.23) +
+    geom_point(aes(x = Gls, y = .data[[input$y]], color = Rank)) 
+    else if (!input$rank_pos)
+      ggplot(gs22.23) +
+    geom_point(aes(x = Gls, y = .data[[input$y]]))
+})
+```
+
+
+
