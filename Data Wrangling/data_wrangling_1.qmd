@@ -734,7 +734,9 @@ ps20.21 <- performance20.21 |>
 ```{r}
 gs20.21 <- shotcreation20.21 |>
   right_join(shooting20.21, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"),
+         Year = "20/21")
 gs20.21 <- performance20.21 |>
   right_join(gs20.21, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -747,7 +749,8 @@ totalgoalkeeping21.22 <- goalkeeping21.22 |>
   right_join(advancedgoalkeeping21.22, join_by(Squad == Squad))
 ds21.22 <- totalgoalkeeping21.22 |>
   right_join(defensive21.22, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         year = "21/22")
 ds21.22 <- performance21.22 |>
   right_join(ds21.22, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -756,7 +759,8 @@ ds21.22 <- performance21.22 |>
 ```{r}
 ps21.22 <- possession21.22 |>
   right_join(passing21.22, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         year = "21/22")
 ps21.22 <- performance21.22 |>
   right_join(ps21.22, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -765,7 +769,10 @@ ps21.22 <- performance21.22 |>
 ```{r}
 gs21.22 <- shotcreation21.22 |>
   right_join(shooting21.22, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         prop_SCA_dead = PassDead/SCA,
+         performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"),
+         Year = "21/22")
 gs21.22 <- performance21.22 |>
   right_join(gs21.22, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -778,7 +785,8 @@ totalgoalkeeping22.23 <- goalkeeping22.23 |>
   right_join(advancedgoalkeeping22.23, join_by(Squad == Squad))
 ds22.23 <- totalgoalkeeping22.23 |>
   right_join(defensive22.23, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         year = "22/23")
 ds22.23 <- performance22.23 |>
   right_join(ds22.23, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -787,7 +795,8 @@ ds22.23 <- performance22.23 |>
 ```{r}
 ps22.23 <- possession22.23 |>
   right_join(passing22.23, join_by(Squad == Squad)) |>
-  mutate(across(-1, parse_number))
+  mutate(across(-1, parse_number),
+         year = "22/23")
 ps22.23 <- performance22.23 |>
   right_join(ps22.23, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
@@ -797,8 +806,15 @@ ps22.23 <- performance22.23 |>
 gs22.23 <- shotcreation22.23 |>
   right_join(shooting22.23, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number),
-         prop_SCA_dead = PassDead/SCA)
+         prop_SCA_dead = PassDead/SCA,
+         performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"),
+         Year = "22/23")
 gs22.23 <- performance22.23 |>
   right_join(gs22.23, join_by(Squad == Squad)) |>
   mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
+
+```{r}
+gs <- rbind(gs21.22, gs22.23)
+```
+

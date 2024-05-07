@@ -71,7 +71,8 @@ performance22.23 <- tibble(squad22.23, placement22.23) |>
 gs22.23 <- shotcreation22.23 |>
   right_join(shooting22.23, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number),
-         prop_SCA_dead = PassDead/SCA)
+         prop_SCA_dead = PassDead/SCA,
+         performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"))
 gs22.23 <- performance22.23 |>
   right_join(gs22.23, join_by(Squad == Squad))
 ```
@@ -104,5 +105,11 @@ renderPlot({
 })
 ```
 
-
-
+```{r} 
+#Include Feature to change the year
+renderPlot({
+ggplot(gs22.23) +
+  geom_bar(aes(x = Rank, fill = performance)) +
+  scale_x_discrete(limits = c("1", "2", "SF", "QF", "R16", "GR"))
+})
+```
