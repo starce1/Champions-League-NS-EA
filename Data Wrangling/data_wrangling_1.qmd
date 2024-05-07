@@ -656,7 +656,8 @@ ds18.19 <- totalgoalkeeping18.19 |>
   right_join(defensive18.19, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ds18.19 <- performance18.19 |>
-  right_join(ds18.19, join_by(Squad == Squad))
+  right_join(ds18.19, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -664,7 +665,8 @@ ps18.19 <- possession18.19 |>
   right_join(passing18.19, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ps18.19 <- performance18.19 |>
-  right_join(ps18.19, join_by(Squad == Squad))
+  right_join(ps18.19, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -672,7 +674,8 @@ gs18.19 <- shotcreation18.19 |>
   right_join(shooting18.19, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 gs18.19 <- performance18.19 |>
-  right_join(gs18.19, join_by(Squad == Squad))
+  right_join(gs18.19, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ## **JOINS 19-20**
@@ -684,7 +687,8 @@ ds19.20 <- totalgoalkeeping19.20 |>
   right_join(defensive19.20, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ds19.20 <- performance19.20 |>
-  right_join(ds19.20, join_by(Squad == Squad))
+  right_join(ds19.20, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -692,7 +696,8 @@ ps19.20 <- possession19.20 |>
   right_join(passing19.20, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ps19.20 <- performance19.20 |>
-  right_join(ps19.20, join_by(Squad == Squad))
+  right_join(ps19.20, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -700,7 +705,8 @@ gs19.20 <- shotcreation19.20 |>
   right_join(shooting19.20, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 gs19.20 <- performance19.20 |>
-  right_join(gs19.20, join_by(Squad == Squad))
+  right_join(gs19.20, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ## **JOINS 20-21**
@@ -712,7 +718,8 @@ ds20.21 <- totalgoalkeeping20.21 |>
   right_join(defensive20.21, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ds20.21 <- performance20.21 |>
-  right_join(ds20.21, join_by(Squad == Squad))
+  right_join(ds20.21, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -720,7 +727,8 @@ ps20.21 <- possession20.21 |>
   right_join(passing20.21, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ps20.21 <- performance20.21 |>
-  right_join(ps20.21, join_by(Squad == Squad))
+  right_join(ps20.21, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -728,7 +736,8 @@ gs20.21 <- shotcreation20.21 |>
   right_join(shooting20.21, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 gs20.21 <- performance20.21 |>
-  right_join(gs20.21, join_by(Squad == Squad))
+  right_join(gs20.21, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ## **JOINS 21-22**
@@ -740,7 +749,8 @@ ds21.22 <- totalgoalkeeping21.22 |>
   right_join(defensive21.22, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ds21.22 <- performance21.22 |>
-  right_join(ds21.22, join_by(Squad == Squad))
+  right_join(ds21.22, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -748,7 +758,8 @@ ps21.22 <- possession21.22 |>
   right_join(passing21.22, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ps21.22 <- performance21.22 |>
-  right_join(ps21.22, join_by(Squad == Squad))
+  right_join(ps21.22, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -756,7 +767,8 @@ gs21.22 <- shotcreation21.22 |>
   right_join(shooting21.22, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 gs21.22 <- performance21.22 |>
-  right_join(gs21.22, join_by(Squad == Squad))
+  right_join(gs21.22, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ## **JOINS 22-23**
@@ -768,7 +780,8 @@ ds22.23 <- totalgoalkeeping22.23 |>
   right_join(defensive22.23, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ds22.23 <- performance22.23 |>
-  right_join(ds22.23, join_by(Squad == Squad))
+  right_join(ds22.23, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -776,7 +789,8 @@ ps22.23 <- possession22.23 |>
   right_join(passing22.23, join_by(Squad == Squad)) |>
   mutate(across(-1, parse_number))
 ps22.23 <- performance22.23 |>
-  right_join(ps22.23, join_by(Squad == Squad))
+  right_join(ps22.23, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
 
 ```{r}
@@ -785,5 +799,6 @@ gs22.23 <- shotcreation22.23 |>
   mutate(across(-1, parse_number),
          prop_SCA_dead = PassDead/SCA)
 gs22.23 <- performance22.23 |>
-  right_join(gs22.23, join_by(Squad == Squad))
+  right_join(gs22.23, join_by(Squad == Squad)) |>
+  mutate(Squad = str_extract(Squad, "[A-Z].*"))
 ```
