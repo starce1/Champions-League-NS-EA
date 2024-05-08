@@ -17,6 +17,7 @@ library(rvest)
 library(httr)
 library(ggplot2)
 library(readr)
+library(plotly)
 ```
 
 ```{r}
@@ -63,16 +64,5 @@ renderPlot({
     geom_point() +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-})
-```
-
-```{r, echo = FALSE} 
-#Include Feature to change the year
-renderPlot({
-gs |>
-    filter(Year %in% c(input$d)) |>
-ggplot() +
-  geom_bar(aes(x = Rank, fill = performance)) +
-  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
 })
 ```

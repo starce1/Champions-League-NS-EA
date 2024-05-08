@@ -1,0 +1,37 @@
+---
+title: "ggplotmessaround"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(httr)
+library(ggplot2)
+library(readr)
+library(plotly)
+```
+
+```{r}
+gs <- read_csv("gs.csv")
+ps <- read_csv("ps.csv")
+ds <- read_csv("ds.csv")
+```
+
+```{r}
+ps |>
+ggplot() +
+  geom_boxplot(aes(y = Att.x, x = Rank)) +
+  scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+```
+
+```{r}
+plot_ly(data = gs, x = ~ Gls, y = ~xG, color = ~Rank,
+        text = ~paste("Team:", Squad))
+```
+
