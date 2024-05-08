@@ -9,7 +9,7 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(stringr)
@@ -20,7 +20,7 @@ library(readr)
 library(plotly)
 ```
 
-```{r}
+```{r, echo = FALSE}
 gs <- read_csv("gs.csv")
 ps <- read_csv("ps.csv")
 ds <- read_csv("ds.csv")
@@ -67,13 +67,35 @@ renderPlot({
 })
 ```
 
-```{r}
+```{r, echo = FALSE}
 renderPlot({
 gs |>
     filter(Year %in% c(input$d)) |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
   scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+})
+```
+
+```{r, echo = FALSE}
+titlePanel("Possession and Passing Metrics") 
+
+inputPanel(
+  selectInput("y1", label = "Y-Axis Variable",
+              choices = c(
+                          "Take-Ons Attempted" = "Att.x",
+                          "Expected Assists" = "xA",
+                          "Progressive Passes" = "PrgP",
+                          "Possession" = "Poss",
+                          "Touches in Defensive Third" = "Def 3rd", 
+                          "Touches in Midfield Third" = "Mid 3rd",
+                          "Touches in Attacking Third" = "Att 3rd"))
+)
+
+renderPlot({
+  ggplot(ps, aes(x = Rank, y = .data[[input$y1]])) +
+    geom_boxplot() +
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
 })
 ```
 
