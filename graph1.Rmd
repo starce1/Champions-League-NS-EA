@@ -66,3 +66,14 @@ renderPlot({
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
 })
 ```
+
+```{r}
+renderPlot({
+gs |>
+    filter(Year %in% c(input$d)) |>
+ggplot() +
+  geom_bar(aes(x = Rank, fill = performance)) +
+  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+})
+```
+

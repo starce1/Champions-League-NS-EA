@@ -32,6 +32,6 @@ ggplot() +
 
 ```{r}
 plot_ly(data = gs, x = ~ Gls, y = ~xG, color = ~Rank,
-        text = ~paste("Team:", Squad))
+        text = ~paste("Team:", Squad, "Year:", Year))
 ```
 
