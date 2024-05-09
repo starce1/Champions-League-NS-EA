@@ -45,8 +45,7 @@ inputPanel(
               "19/20" = "19/20",
               "20/21" = "20/21",
               "21/22" = "21/22",
-              "22/23" = "22/23",
-              "All Years" = "all")),
+              "22/23" = "22/23")),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
@@ -79,8 +78,67 @@ ggplot() +
 ```
 
 ```{r, echo = FALSE}
-titlePanel("Possession and Passing Metrics") 
+inputPanel(
+  selectInput("y3", label = "Y-Axis Variable",
+              choices = c(
+                          "Expected Goals" = "xG",
+                          "Goals" = "Gls",
+                          "Non-Penalty Expected Goals" = "npxG",
+                          "Average Shot Distance" = "Dist",
+                          "Shots per 90 Minutes" = "Sh/90",
+                          "Shot on Target %" = "SoT%", 
+                          "Shot Creation Actions per 90 Minutes" = "SCA90",
+                          "Proportion of Shot Creating Actions from Dead Balls" = "prop_SCA_dead"))
+)
 
+renderPlot({
+  ggplot(gs, aes(x = Rank, y = .data[[input$y3]])) +
+    geom_boxplot() +
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+})
+```
+
+```{r}
+titlePanel("Possession and Passing Metrics") 
+inputPanel(
+  selectInput("y2", label = "Y-Axis Variable",
+              choices = c(
+                          "Take-Ons Attempted" = "Att.x",
+                          "Expected Assists" = "xA",
+                          "Progressive Passes" = "PrgP",
+                          "Touches in Defensive Third" = "Def 3rd", 
+                          "Touches in Midfield Third" = "Mid 3rd",
+                          "Touches in Attacking Third" = "Att 3rd")),
+  selectInput("d", label = "Year",
+  choices = c("18/19" = "18/19", 
+              "19/20" = "19/20",
+              "20/21" = "20/21",
+              "21/22" = "21/22",
+              "22/23" = "22/23")),
+checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+)
+
+renderPlot({
+  if (input$rank_pos) 
+    ps |>
+    filter(Year %in% c(input$d)) |>
+  ggplot(aes(x = Poss, y = .data[[input$y2]])) +
+    geom_point(aes(color = Rank)) +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else if (!input$rank_pos)
+    ps |>
+    filter(Year %in% c(input$d)) |>
+      ggplot(aes(x = Poss, y = .data[[input$y2]])) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+})
+```
+
+
+
+```{r, echo = FALSE}
 inputPanel(
   selectInput("y1", label = "Y-Axis Variable",
               choices = c(
