@@ -45,13 +45,14 @@ inputPanel(
               "19/20" = "19/20",
               "20/21" = "20/21",
               "21/22" = "21/22",
-              "22/23" = "22/23")),
+              "22/23" = "22/23",
+              "All Years" = "all")),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
 renderPlot({
-  if (input$rank_pos)
-  gs |>
+  if (input$rank_pos) 
+    gs |>
     filter(Year %in% c(input$d)) |>
   ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point(aes(color = Rank)) +
