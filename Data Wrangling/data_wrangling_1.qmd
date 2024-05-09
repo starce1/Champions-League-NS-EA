@@ -352,7 +352,7 @@ goalkeeping21.22 <- goalkeeping21.22[-1,-21]
 ```
 
 ```{r}
-advancedgoalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepersadv/2020-2021-Champions-League-Stats")
+advancedgoalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepersadv/2021-2022-Champions-League-Stats")
 
 table <- html_nodes(advancedgoalkeeping21.22, css = "table")
 
@@ -444,7 +444,7 @@ shooting21.22 <- shooting21.22[-1,]
 ## **SCRAPING STATS FROM 22-23 SEASON**
 
 ```{r}
-goalkeeping22.23 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepers/2020-2021-Champions-League-Stats")
+goalkeeping22.23 <- read_html("https://fbref.com/en/comps/8/2022-2023/keepers/2020-2021-Champions-League-Stats")
 
 table <- html_nodes(goalkeeping22.23, css = "table")
 

@@ -9,6 +9,12 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+rsconnect::setAccountInfo(name='evanatchison', 
+                          token='25BFBBAC273EBE4BFBDA31E81B651CAF', secret='a75qnjctsuqt8Ws0dpA5tSGheLxJoIh1jnPTGy+3')
+```
+
+
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
