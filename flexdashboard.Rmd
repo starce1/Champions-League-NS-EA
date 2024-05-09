@@ -222,18 +222,27 @@ renderPlot({
 Column
 --------------------------
 
-```{r. echo = FALSE}
+```{r, echo = FALSE}
 inputPanel(
   selectInput("third", label = "Third of Pitch",
-              choices = c("prof_def_third" = "Defensive Third",
-                          "prop_def_mid" = "Middle Third",
-                          "prop_def_att" = "Attacking Third")),
+              choices = c("Defensive Third" = "prop_def_third",
+                          "Middle Third" = "prop_def_mid",
+                          "Attacking Third" = "prop_def_att")), 
+  selectInput("d", "Year",
+choices = c("All Years", unique(ps$Year))),
   sliderInput("pdt", label = "Proportion of Total Touches in Third",
-              min = 0.1, max = 0.80, value = .36, step = .05)
+              min = 0.1, max = 0.6, value = .32, step = .02)
 )
 
 renderPlot({
+  if (input$d == "All Years")
   ps |>
+    filter(.data[[input$third]] >= (input$pdt)) |>
+    ggplot() +
+    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank))
+  else 
+  ps |>
+    filter(Year %in% c(input$d)) |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank))
