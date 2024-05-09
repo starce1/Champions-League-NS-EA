@@ -831,7 +831,11 @@ gs <- rbind(gs22.23, gs21.22, gs20.21, gs19.20, gs18.19) |>
          performance = ifelse(`G-xG` > 0, "Overperformed", "Underperformed"))
 
 ps <- rbind(ps22.23, ps21.22, ps20.21, ps19.20, ps18.19) |>
-  select(1, 44, 2:43)
+  select(1, 44, 2:43) |>
+  mutate(takeons_per_match = Att.x/`90s.x`,
+         prop_def_third = `Def 3rd`/Touches,
+         prop_def_mid = `Mid 3rd`/Touches,
+         prop_def_att = `Att 3rd`/Touches)
 ds <- rbind(ds22.23, ds21.22, ds20.21, ds19.20, ds18.19) |>
   select(1, 63, 2:62)
 ```
