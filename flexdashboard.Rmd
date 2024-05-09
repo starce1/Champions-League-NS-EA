@@ -1,11 +1,29 @@
 ---
-title: "Untitled"
+title: "Champions League Progression"
+runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
-runtime: shiny
+    theme: 
+      version: 3
+      primary: "#ED79F9"
+      navbar-bg: "#b59736"
+      base_font: 
+        google: Prompt
+      heading_font:
+        google: Sen
+      code_font:
+        google: 
+          # arguments to sass::font_google() 
+          family: JetBrains Mono
+          local: false
+    logo: 
 ---
+
+```{r}
+#bg: "#008c45"
+#fg: "#02a452"
+```
+
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -23,6 +41,29 @@ library(flexdashboard)
 gs <- read_csv("gs.csv")
 ps <- read_csv("ps.csv")
 ds <- read_csv("ds.csv")
+```
+
+About
+==========================
+
+Column {data-width = 400}
+-------------------------
+
+#### Background Information
+
+In this Shiny app, we investigate many of the subtle variables of that affect the outcome of a soccer game. Using the UFEA Champions League statistics from the 2018-2023 seasons, we compare certain skills in different game situation throughout time.
+
+Data source:  [FBREF Database](https://fbref.com/en/comps/8/history/Champions-League-Seasons)
+
+[UFEA Champions League Official Website](https://www.uefa.com/uefachampionsleague/)
+
+```{r, echo=FALSE}
+
+renderImage({
+    # Return a list
+    list(src = "UEFA_Champions_League.svg.png",
+         alt = "This is alternate text", width = 600, height = 600)
+  })
 ```
 
 Goals
