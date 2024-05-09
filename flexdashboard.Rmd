@@ -218,3 +218,25 @@ renderPlot({
     scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
 })
 ```
+
+Column
+--------------------------
+
+```{r. echo = FALSE}
+inputPanel(
+  selectInput("third", label = "Third of Pitch",
+              choices = c("prof_def_third" = "Defensive Third",
+                          "prop_def_mid" = "Middle Third",
+                          "prop_def_att" = "Attacking Third")),
+  sliderInput("pdt", label = "Proportion of Total Touches in Third",
+              min = 0.1, max = 0.80, value = .36, step = .05)
+)
+
+renderPlot({
+  ps |>
+    filter(.data[[input$third]] >= (input$pdt)) |>
+    ggplot() +
+    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank))
+})
+```
+
