@@ -36,6 +36,7 @@ library(readr)
 library(plotly)
 library(flexdashboard)
 library(ggthemes)
+library(shinyWidgets)
 ```
 
 ```{r, echo = FALSE}
@@ -95,17 +96,17 @@ renderPlot({
   if (input$rank_pos) 
     if (input$d == "All Years")
     gs |>
-  ggplot(aes(x = Gls, y = .data[[input$y]])) +
+    ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point(aes(color = Rank)) +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
     else 
     gs |>
     filter(Year %in% c(input$d)) |>
-  ggplot(aes(x = Gls, y = .data[[input$y]])) +
+    ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point(aes(color = Rank)) +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) 
   else if (!input$rank_pos)
     if (input$d == "All Years")
     gs |>
@@ -116,7 +117,7 @@ renderPlot({
     else 
       gs |>
     filter(Year %in% c(input$d)) |>
-      ggplot(aes(x = Gls, y = .data[[input$y]])) +
+       ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point() +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
@@ -267,14 +268,16 @@ renderPlot({
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
-    theme_fivethirtyeight()
+    labs(x = "Possession") +
+    theme_clean()
   else 
   ps |>
     filter(Year %in% c(input$d)) |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
-    theme_fivethirtyeight()
+      labs(x = "Possession") +
+    theme_clean()
 })
 ```
 
@@ -285,7 +288,7 @@ Column
 -------------
 
 ```{r, echo = FALSE}
-titlePanel("Defensive Metrics") 
+titlePanel("Defensive Metrics")
 
 inputPanel(
   selectInput("dsv", label = "Y-Axis Variable",
@@ -302,7 +305,6 @@ inputPanel(
   choices = c("All Years", unique(ds$Year))),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
-
 renderPlot({
   if (input$rank_pos) 
     if (input$d == "All Years")
