@@ -35,6 +35,7 @@ library(ggplot2)
 library(readr)
 library(plotly)
 library(flexdashboard)
+library(ggthemes)
 ```
 
 ```{r, echo = FALSE}
@@ -86,24 +87,34 @@ inputPanel(
                           "Shot Creation Actions per 90 Minutes" = "SCA90",
                           "Proportion of Shot Creating Actions from Dead Balls" = "prop_SCA_dead")),
   selectInput("d", label = "Year",
-  choices = c("18/19" = "18/19", 
-              "19/20" = "19/20",
-              "20/21" = "20/21",
-              "21/22" = "21/22",
-              "22/23" = "22/23")),
+  choices = c("All Years", unique(gs$Year))),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
 renderPlot({
   if (input$rank_pos) 
+    if (input$d == "All Years")
+    gs |>
+  ggplot(aes(x = Gls, y = .data[[input$y]])) +
+    geom_point(aes(color = Rank)) +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
     gs |>
     filter(Year %in% c(input$d)) |>
   ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point(aes(color = Rank)) +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-    else if (!input$rank_pos)
+  else if (!input$rank_pos)
+    if (input$d == "All Years")
     gs |>
+      ggplot(aes(x = Gls, y = .data[[input$y]])) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
+      gs |>
     filter(Year %in% c(input$d)) |>
       ggplot(aes(x = Gls, y = .data[[input$y]])) +
     geom_point() +
@@ -114,7 +125,13 @@ renderPlot({
 
 ```{r, echo = FALSE}
 renderPlot({
+  if (input$d == "All Years")
 gs |>
+ggplot() +
+  geom_bar(aes(x = Rank, fill = performance)) +
+  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  else 
+  gs |>
     filter(Year %in% c(input$d)) |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
@@ -165,27 +182,37 @@ inputPanel(
                           "Touches in Midfield Third" = "Mid 3rd",
                           "Touches in Attacking Third" = "Att 3rd",
                           "Proption of Touches in Defensive Third" = "prop_def_third",
-                          "Proportion of Touches in Midfield Third" = "prop_def_mid",
-                          "Proportion of Touches in Attacking Third" = "prop_def_att")),
+                          "Proportion of Touches in Midfield Third" = "prop_mid_third",
+                          "Proportion of Touches in Attacking Third" = "prop_att_third")),
   selectInput("d", label = "Year",
-  choices = c("18/19" = "18/19", 
-              "19/20" = "19/20",
-              "20/21" = "20/21",
-              "21/22" = "21/22",
-              "22/23" = "22/23")),
+  choices = c("All Years", unique(ps$Year))),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
 renderPlot({
   if (input$rank_pos) 
+    if (input$d == "All Years")
     ps |>
+  ggplot(aes(x = Poss, y = .data[[input$y2]])) +
+    geom_point(aes(color = Rank)) +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
+       ps |>
     filter(Year %in% c(input$d)) |>
   ggplot(aes(x = Poss, y = .data[[input$y2]])) +
     geom_point(aes(color = Rank)) +
     geom_smooth(method = lm, se = FALSE, color = "Black") +
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-    else if (!input$rank_pos)
+  else if (!input$rank_pos)
+    if (input$d == "All Years")
     ps |>
+      ggplot(aes(x = Poss, y = .data[[input$y2]])) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
+       ps |>
     filter(Year %in% c(input$d)) |>
       ggplot(aes(x = Poss, y = .data[[input$y2]])) +
     geom_point() +
@@ -226,8 +253,8 @@ Column
 inputPanel(
   selectInput("third", label = "Third of Pitch",
               choices = c("Defensive Third" = "prop_def_third",
-                          "Middle Third" = "prop_def_mid",
-                          "Attacking Third" = "prop_def_att")), 
+                          "Middle Third" = "prop_mid_third",
+                          "Attacking Third" = "prop_att_third")), 
   selectInput("d", "Year",
 choices = c("All Years", unique(ps$Year))),
   sliderInput("pdt", label = "Proportion of Total Touches in Third",
@@ -239,13 +266,15 @@ renderPlot({
   ps |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
-    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank))
+    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
+    theme_fivethirtyeight()
   else 
   ps |>
     filter(Year %in% c(input$d)) |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
-    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank))
+    geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
+    theme_fivethirtyeight()
 })
 ```
 
