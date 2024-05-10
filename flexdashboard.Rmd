@@ -278,3 +278,59 @@ renderPlot({
 })
 ```
 
+Defending and Goalkeeping
+================================
+
+Column
+-------------
+
+```{r, echo = FALSE}
+titlePanel("Defensive Metrics") 
+
+inputPanel(
+  selectInput("dsv", label = "Y-Axis Variable",
+              choices = c(
+                          "Save Percentage" = "Save%",
+                          "Shots on Target Against" = "SoTA",
+                          "Expected Goals Conceded" = "PSxG",
+                          "Expected Goals Conceded minus Goals Allowed" = "PSxG+/-",
+                          "Crosses Faced" = "Opp", 
+                          "Tackles Won" = "TklW",
+                          "Interceptions" = "Int",
+                          "Blocks (Shots + Passes)" = "Blocks")),
+  selectInput("d", label = "Year",
+  choices = c("All Years", unique(ds$Year))),
+checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+)
+
+renderPlot({
+  if (input$rank_pos) 
+    if (input$d == "All Years")
+    ds |>
+  ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
+    geom_point(aes(color = Rank)) +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
+    ds |>
+    filter(Year %in% c(input$d)) |>
+  ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
+    geom_point(aes(color = Rank)) +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  else if (!input$rank_pos)
+    if (input$d == "All Years")
+    ds |>
+      ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+    else 
+      ds |>
+    filter(Year %in% c(input$d)) |>
+      ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
+    geom_point() +
+    geom_smooth(method = lm, se = FALSE, color = "Black") +
+    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+})
+```
