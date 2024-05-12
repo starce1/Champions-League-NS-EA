@@ -336,3 +336,45 @@ renderPlot({
     scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
 })
 ```
+
+
+```{r, echo = FALSE}
+titlePanel("Possession and Passing Metrics") 
+inputPanel(
+  selectInput("y2", label = "Y-Axis Variable",
+              choices = c(
+                          "Take-Ons Attempted" = "Att.x",
+                          "Expected Assists" = "xA",
+                          "Progressive Passes" = "PrgP",
+                          "Touches in Defensive Third" = "Def 3rd", 
+                          "Touches in Midfield Third" = "Mid 3rd",
+                          "Touches in Attacking Third" = "Att 3rd",
+                          "Proption of Touches in Defensive Third" = "prop_def_third",
+                          "Proportion of Touches in Midfield Third" = "prop_mid_third",
+                          "Proportion of Touches in Attacking Third" = "prop_att_third")),
+  selectInput("d", label = "Year",
+  choices = c("All Years", unique(ps$Year))),
+checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+)
+
+renderPlotly({
+   if (input$rank_pos) 
+    if (input$d == "All Years")
+    ps |>
+  plot_ly(x = ~Poss, y = ~.data[[input$y2]], trendline = "ols", type = 'scatter', mode = 'markers', color = ~Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year)) |>
+    add_lines(x = ~Poss, y = fitted(lm))
+    else 
+       ps |>
+    filter(Year %in% c(input$d)) |>
+   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
+  else if (!input$rank_pos)
+    if (input$d == "All Years")
+    ps |>
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
+    else 
+       ps |>
+    filter(Year %in% c(input$d)) |>
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
+  })
+```
+
