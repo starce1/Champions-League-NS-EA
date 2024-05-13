@@ -164,6 +164,24 @@ renderPlot({
 })
 ```
 
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("yr", "Year",
+choices = c("All Years", unique(gs$Year)))
+)
+
+renderPlot({
+  if (input$yr == "All Years")
+    gs |>
+    ggplot(aes(x = `G-xG`)) +
+    geom_density() 
+  else
+    gs |>
+      filter(Year %in% c(input$yr)) |>
+      ggplot(aes(x = `G-xG`)) +
+      geom_density() 
+})
+```
 
 Possession
 =========================
