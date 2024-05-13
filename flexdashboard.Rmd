@@ -4,25 +4,9 @@ runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
     theme: 
-      version: 3
-      primary: "#ED79F9"
-      navbar-bg: "#b59736"
-      base_font: 
-        google: Prompt
-      heading_font:
-        google: Sen
-      code_font:
-        google: 
-          # arguments to sass::font_google() 
-          family: JetBrains Mono
-          local: false
-    logo: 
+      version: 5
+      bootswatch: cyborg
 ---
-
-```{r}
-#bg: "#008c45"
-#fg: "#02a452"
-```
 
 
 ```{r, echo = FALSE}
@@ -159,19 +143,31 @@ renderPlot({
 ```{r, echo = FALSE}
 inputPanel(
   selectInput("yr", "Year",
-choices = c("All Years", unique(gs$Year)))
+choices = c("All Years", unique(gs$Year))),
+checkboxInput("penalty", "Include Penalty Shots", value = FALSE)
 )
 
 renderPlot({
-  if (input$yr == "All Years")
-    gs |>
-    ggplot(aes(x = `G-xG`)) +
-    geom_density() 
+  if(!input$penalty)
+    if (input$yr == "All Years")
+      gs |>
+      ggplot(aes(x = `np:G-xG`)) +
+      geom_density() 
+    else
+      gs |>
+        filter(Year %in% c(input$yr)) |>
+        ggplot(aes(x = `np:G-xG`)) +
+        geom_density() 
   else
-    gs |>
-      filter(Year %in% c(input$yr)) |>
+    if (input$yr == "All Years")
+      gs |>
       ggplot(aes(x = `G-xG`)) +
       geom_density() 
+    else
+      gs |>
+        filter(Year %in% c(input$yr)) |>
+        ggplot(aes(x = `G-xG`)) +
+        geom_density() 
 })
 ```
 
@@ -222,34 +218,6 @@ renderPlotly({
 })
 ```
 
-Column
----------------------------
-
-```{r, echo = FALSE}
-inputPanel(
-  selectInput("y1", label = "Y-Axis Variable",
-              choices = c(
-                          "Take-Ons Attempted" = "Att.x",
-                          "Expected Assists" = "xA",
-                          "Progressive Passes" = "PrgP",
-                          "Possession" = "Poss",
-                          "Touches in Defensive Third" = "Def 3rd", 
-                          "Touches in Midfield Third" = "Mid 3rd",
-                          "Touches in Attacking Third" = "Att 3rd",
-                          "Take-Ons Per Match" = "takeons_per_match",
-                          "Proption of Touches in Defensive Third" = "prop_def_third"))
-)
-
-renderPlot({
-  ggplot(ps, aes(x = Rank, y = .data[[input$y1]])) +
-    geom_boxplot() +
-    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
-})
-```
-
-Column
---------------------------
-
 ```{r, echo = FALSE}
 inputPanel(
   selectInput("third", label = "Third of Pitch",
@@ -277,6 +245,50 @@ renderPlot({
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
       labs(x = "Possession") +
     theme_clean()
+})
+```
+
+Column
+---------------------------
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("y1", label = "Y-Axis Variable",
+              choices = c(
+                          "Take-Ons Attempted" = "Att.x",
+                          "Expected Assists" = "xA",
+                          "Progressive Passes" = "PrgP",
+                          "Possession" = "Poss",
+                          "Touches in Defensive Third" = "Def 3rd", 
+                          "Touches in Midfield Third" = "Mid 3rd",
+                          "Touches in Attacking Third" = "Att 3rd",
+                          "Take-Ons Per Match" = "takeons_per_match",
+                          "Proption of Touches in Defensive Third" = "prop_def_third"))
+)
+
+renderPlot({
+  ggplot(ps, aes(x = Rank, y = .data[[input$y1]])) +
+    geom_boxplot() +
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+})
+```
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("yr2", "Year",
+choices = c("All Years", unique(gs$Year))),
+)
+
+renderPlot({
+  if (input$yr2 == "All Years")
+    ps |>
+    ggplot(aes(x = `A-xAG`)) +
+    geom_density() 
+  else
+    ps |>
+      filter(Year %in% c(input$yr2)) |>
+      ggplot(aes(x = `A-xAG`)) +
+      geom_density() 
 })
 ```
 
@@ -355,3 +367,33 @@ renderPlot({
 })
 ```
 
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("yr3", "Year",
+choices = c("All Years", unique(gs$Year))),
+checkboxInput("ninety", "Per 90 Minutes", value = FALSE)
+)
+
+renderPlot({
+  if(!input$ninety)
+    if (input$yr3 == "All Years")
+      ds |>
+      ggplot(aes(x = `PSxG+/-`)) +
+      geom_density() 
+    else
+      ds |>
+        filter(Year %in% c(input$yr3)) |>
+        ggplot(aes(x = `PSxG+/-`)) +
+        geom_density() 
+  else
+    if (input$yr3 == "All Years")
+      ds |>
+      ggplot(aes(x = `/90`)) +
+      geom_density() 
+    else
+      ds |>
+        filter(Year %in% c(input$yr3)) |>
+        ggplot(aes(x = `/90`)) +
+        geom_density() 
+})
+```
