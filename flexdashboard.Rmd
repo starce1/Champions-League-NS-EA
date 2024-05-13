@@ -92,35 +92,27 @@ inputPanel(
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
-renderPlot({
-  if (input$rank_pos) 
+legend_order <- c("W", "F", "SF", "QF", "R16", "GR")
+
+gs$Rank <- factor(gs$Rank, levels = legend_order)
+
+  renderPlotly({
+   if (input$rank_pos) 
     if (input$d == "All Years")
     gs |>
-    ggplot(aes(x = Gls, y = .data[[input$y]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year)) 
     else 
-    gs |>
+       gs |>
     filter(Year %in% c(input$d)) |>
-    ggplot(aes(x = Gls, y = .data[[input$y]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) 
+   plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     gs |>
-      ggplot(aes(x = Gls, y = .data[[input$y]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
     else 
-      gs |>
+       gs |>
     filter(Year %in% c(input$d)) |>
-       ggplot(aes(x = Gls, y = .data[[input$y]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
 })
 ```
 
@@ -208,35 +200,25 @@ inputPanel(
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
 
-renderPlot({
-  if (input$rank_pos) 
+ps$Rank <- factor(ps$Rank, levels = legend_order)
+
+renderPlotly({
+   if (input$rank_pos) 
     if (input$d == "All Years")
     ps |>
-  ggplot(aes(x = Poss, y = .data[[input$y2]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year)) 
     else 
        ps |>
     filter(Year %in% c(input$d)) |>
-  ggplot(aes(x = Poss, y = .data[[input$y2]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     ps |>
-      ggplot(aes(x = Poss, y = .data[[input$y2]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
     else 
        ps |>
     filter(Year %in% c(input$d)) |>
-      ggplot(aes(x = Poss, y = .data[[input$y2]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
 })
 ```
 
@@ -279,7 +261,6 @@ choices = c("All Years", unique(ps$Year))),
   sliderInput("pdt", label = "Proportion of Total Touches in Third",
               min = 0.1, max = 0.6, value = .32, step = .02)
 )
-
 renderPlot({
   if (input$d == "All Years")
   ps |>
@@ -323,76 +304,54 @@ inputPanel(
   choices = c("All Years", unique(ds$Year))),
 checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
 )
-renderPlot({
-  if (input$rank_pos) 
-    if (input$d == "All Years")
-    ds |>
-  ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-    else 
-    ds |>
-    filter(Year %in% c(input$d)) |>
-  ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
-    geom_point(aes(color = Rank)) +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-  else if (!input$rank_pos)
-    if (input$d == "All Years")
-    ds |>
-      ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-    else 
-      ds |>
-    filter(Year %in% c(input$d)) |>
-      ggplot(aes(x = GA90, y = .data[[input$dsv]])) +
-    geom_point() +
-    geom_smooth(method = lm, se = FALSE, color = "Black") +
-    scale_color_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
-})
-```
 
-
-```{r, echo = FALSE}
-titlePanel("Possession and Passing Metrics") 
-inputPanel(
-  selectInput("y2", label = "Y-Axis Variable",
-              choices = c(
-                          "Take-Ons Attempted" = "Att.x",
-                          "Expected Assists" = "xA",
-                          "Progressive Passes" = "PrgP",
-                          "Touches in Defensive Third" = "Def 3rd", 
-                          "Touches in Midfield Third" = "Mid 3rd",
-                          "Touches in Attacking Third" = "Att 3rd",
-                          "Proption of Touches in Defensive Third" = "prop_def_third",
-                          "Proportion of Touches in Midfield Third" = "prop_mid_third",
-                          "Proportion of Touches in Attacking Third" = "prop_att_third")),
-  selectInput("d", label = "Year",
-  choices = c("All Years", unique(ps$Year))),
-checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
-)
+ds$Rank <- factor(ds$Rank, levels = legend_order)
 
 renderPlotly({
    if (input$rank_pos) 
     if (input$d == "All Years")
-    ps |>
-  plot_ly(x = ~Poss, y = ~.data[[input$y2]], trendline = "ols", type = 'scatter', mode = 'markers', color = ~Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year)) |>
-    add_lines(x = ~Poss, y = fitted(lm))
+    ds |>
+  plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year)) |>
+    layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
+           yaxis = list(title = input$dsv))
     else 
-       ps |>
+       ds |>
     filter(Year %in% c(input$d)) |>
-   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
+   plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year))
   else if (!input$rank_pos)
     if (input$d == "All Years")
-    ps |>
-       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
+    ds |>
+       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
     else 
-       ps |>
+       ds |>
     filter(Year %in% c(input$d)) |>
-       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers')
-  })
+       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year))
+})
+```
+
+Column
+----------
+
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("dsv1", label = "Y-Axis Variable",
+              choices = c(
+                          "Goals Allowed per 90 Minutes" = "GA90",
+                          "Save Percentage" = "Save%",
+                          "Post-Shot Expected Goals" = "PSxG",
+                          "Post-Shot Expected Goals - Goals Allowed" = "PSxG+/-",
+                          "Crossed Attempted" = "Opp", 
+                          "Tackles" = "Tkl",
+                          "Interceptions" = "Int",
+                          "Tackles + Interceptions" = "Tkl+Int",
+                          "Tackles in Defensive Third" = "Def 3rd",
+                      "Tackles in Attacking Third" = "Att 3rd"))
+)
+
+renderPlot({
+  ggplot(ds, aes(x = Rank, y = .data[[input$dsv1]])) +
+    geom_boxplot() +
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+})
 ```
 
