@@ -398,3 +398,13 @@ renderPlot({
         geom_density() 
 })
 ```
+
+
+Conclusion
+================================
+
+Column
+-------------
+
+
+**INSERT FINAL PLOT HERE**
