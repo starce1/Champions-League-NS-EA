@@ -101,15 +101,20 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
 ```
 
 ```{r, echo = FALSE}
+inputPanel(
+  selectInput("year3", label = "Year",
+    choices = c("All Years", unique(gs$Year))),
+)
+
 renderPlot({
-  if (input$d == "All Years")
+  if (input$year3 == "All Years")
 gs |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
   scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
   else 
   gs |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$year3)) |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
   scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
