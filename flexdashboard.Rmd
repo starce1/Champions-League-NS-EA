@@ -5,7 +5,7 @@ output:
   flexdashboard::flex_dashboard:
     theme: 
       version: 5
-      bootswatch: cyborg
+      bootswatch: lux
 ---
 
 
@@ -255,15 +255,16 @@ Column
 inputPanel(
   selectInput("y1", label = "Y-Axis Variable",
               choices = c(
-                          "Take-Ons Attempted" = "Att.x",
+                           "Take-Ons Attempted per Match" = "takeons_attempted_per_game",
                           "Expected Assists" = "xA",
-                          "Progressive Passes" = "PrgP",
-                          "Possession" = "Poss",
-                          "Touches in Defensive Third" = "Def 3rd", 
-                          "Touches in Midfield Third" = "Mid 3rd",
-                          "Touches in Attacking Third" = "Att 3rd",
-                          "Take-Ons Per Match" = "takeons_per_match",
-                          "Proption of Touches in Defensive Third" = "prop_def_third"))
+                          "Progressive Passes per Match" = "PrgP_per_game",
+                          "Touches in Defensive Third per Match" = "def_third_touches_per_game", 
+                          "Touches in Midfield Third per Match" = "mid_third_touches_per_game",
+                          "Touches in Attacking Third per Match" = "att_third_touches_per_game",
+                          "Progressive Carries per Match" = "PrgC_per_game",
+                          "Pass Completion %" = "Cmp%",
+                          "Crosses per Match" = "crosses_per_game",
+                          "Key Passes per Match" = "kp_per_game"))
 )
 
 renderPlot({

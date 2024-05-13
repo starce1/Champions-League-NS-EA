@@ -835,7 +835,15 @@ ps <- rbind(ps22.23, ps21.22, ps20.21, ps19.20, ps18.19) |>
   mutate(takeons_per_match = Att.x/`90s.x`,
          prop_def_third = `Def 3rd`/Touches,
          prop_mid_third = `Mid 3rd`/Touches,
-         prop_att_third = `Att 3rd`/Touches)
+         prop_att_third = `Att 3rd`/Touches,
+         kp_per_game = KP/`90s.x`,
+crosses_per_game = CrsPA/`90s.x`,
+PrgP_per_game = PrgP/`90s.x`,
+PrgC_per_game = PrgC/`90s.x`,
+takeons_attempted_per_game = Att.x/`90s.x`,
+def_third_touches_per_game = `Def 3rd`/`90s.x`,
+mid_third_touches_per_game = `Mid 3rd`/`90s.x`,
+att_third_touches_per_game = `Att 3rd`/`90s.x`)
 ds <- rbind(ds22.23, ds21.22, ds20.21, ds19.20, ds18.19) |>
   select(1, 63, 2:62)
 ```
