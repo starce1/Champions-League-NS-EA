@@ -366,7 +366,8 @@ renderPlot({
   ggplot(ds, aes(.data[[input$x_var]], Squad)) +
     geom_line(aes(group = Squad)) +
     geom_point(aes(color = save_performance))
-})
+},
+height = 1000)
 ```
 
 Column
