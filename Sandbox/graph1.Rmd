@@ -71,3 +71,34 @@ ggplot(ds, aes(Lost, Squad)) +
 ```
 
 
+```{r}
+ps1 <- ps |>
+  select(Squad, Year, `Att 3rd`, `Succ%`, PrgC, `Cmp%`, xAG, PrgP) |>
+  filter(Year == "22/23") |>
+  select(!Year)
+library(reshape2)
+library(plotly)
+ps1_melted <- melt(ps1, id.vars = "Squad")
+
+plot_ly(
+  ps1_melted,
+  x = ~Squad, 
+  y = ~variable,
+  z = ~value,
+  type = "heatmap"
+)
+```
+
+```{r}
+ps |>
+  select(Squad, Year, `Att 3rd`, `Succ%`, PrgC, `Cmp%`, xAG, PrgP) |>
+  filter(Year == "22/23") |>
+  select(!Year) |>
+ melt(id.vars = "Squad") |>
+plot_ly(
+  y = ~Squad, 
+  x = ~variable,
+  z = ~value,
+  type = "heatmap")
+```
+

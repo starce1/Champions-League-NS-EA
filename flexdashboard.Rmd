@@ -27,6 +27,7 @@ library(shinyWidgets)
 gs <- read_csv("gs.csv")
 ps <- read_csv("ps.csv")
 ds <- read_csv("ds.csv")
+total_s <- read_csv("total_s.csv")
 ```
 
 About
@@ -430,4 +431,21 @@ Conclusion
 Column
 -------------
 
-**INSERT FINAL PLOT HERE**
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("yr4", "Year",
+choices = c("22/23" = "22/23", "21/22" = "21/22", "20/21" = "20/21", "19/20" = "19/20", "18/19" = "18/19")))
+
+renderPlotly({
+total_s |>
+  select(Squad, Year, xG, `SoT/90`, xAG, kp_90, takeons_attempted_90, PSxG, tkl_int_90) |>
+  filter(Year %in% c(input$yr4)) |>
+  select(!Year) |>
+ melt(id.vars = "Squad") |>
+plot_ly(
+  y = ~Squad, 
+  x = ~variable,
+  z = ~value,
+  type = "heatmap")
+})
+```

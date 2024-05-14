@@ -856,10 +856,18 @@ ds <- rbind(ds22.23, ds21.22, ds20.21, ds19.20, ds18.19) |>
          prop_tkl_w = TklW/Tkl)
 ```
 
+```{r}
+total_s <- merge(gs, ps, by = c("Squad", "Year"), all = FALSE)
+
+total_s <- merge(total_s, ds, by = c("Squad", "Year"), all = FALSE)
+```
+
+
 ## **WRITING THE CSV FILES!!!**
 
 ```{r}
 write_csv(gs, "gs.csv")
 write_csv(ps, "ps.csv")
 write_csv(ds, "ds.csv")
+write_csv(total_s, "total_s.csv")
 ```
