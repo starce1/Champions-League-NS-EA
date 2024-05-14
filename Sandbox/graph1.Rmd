@@ -71,3 +71,19 @@ ggplot(ds, aes(Lost, Squad)) +
 ```
 
 
+```{r}
+ps1 <- ps[c(1:32), c(1,4:20)] 
+  
+library(reshape2)
+ps1_melted <- melt(ps1, id.vars = "Squad")
+
+ggplot(ps1_melted, aes(x = Squad, y = variable, fill = value)) +
+  geom_tile() +
+   scale_fill_gradient(low = "lightblue", high = "darkblue") +  # Color scale
+  labs(title = "Heatmap without Matrix Form",
+       x = "Category",
+       y = "Variable") +
+  theme_minimal()
+  
+```
+
