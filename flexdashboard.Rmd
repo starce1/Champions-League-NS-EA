@@ -347,6 +347,25 @@ renderPlotly({
 })
 ```
 
+```{r, echo = FALSE}
+inputPanel(
+  selectInput("x_var", label = "X-Axis Variable",
+              choices = c(
+                          #"Proportion Tackles Won" = "prop_tkl_w",
+                          "Percent of Dribblers Tackled" = "Tkl%",
+                          "Challenges Lost" = "Lost",
+                          "Shots Blocked" = "Sh",
+                          "Interceptions" = "Int", 
+                          "Errors" = "Err"))
+)
+
+renderPlot({
+  ggplot(ds, aes(.data[[input$x_var]], Squad)) +
+    geom_line(aes(group = Squad)) +
+    geom_point(aes(color = save_performance))
+})
+```
+
 Column
 ----------
 
@@ -410,11 +429,5 @@ Conclusion
 
 Column
 -------------
-```{r}
-ggplot(ds, aes(Lost, Squad)) +
-  geom_line(aes(group = Squad)) +
-  geom_point(aes(color = save_performance))
-```
-
 
 **INSERT FINAL PLOT HERE**
