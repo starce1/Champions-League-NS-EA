@@ -410,6 +410,11 @@ Conclusion
 
 Column
 -------------
+```{r}
+ggplot(ds, aes(Lost, Squad)) +
+  geom_line(aes(group = Squad)) +
+  geom_point(aes(color = save_performance))
+```
 
 
 **INSERT FINAL PLOT HERE**
