@@ -351,7 +351,7 @@ renderPlotly({
 inputPanel(
   selectInput("x_var", label = "X-Axis Variable",
               choices = c(
-                          #"Proportion Tackles Won" = "prop_tkl_w",
+                          "Proportion Tackles Won" = "prop_tkl_w",
                           "Percent of Dribblers Tackled" = "Tkl%",
                           "Challenges Lost" = "Lost",
                           "Shots Blocked" = "Sh",
