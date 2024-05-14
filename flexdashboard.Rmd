@@ -88,22 +88,82 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
     if (input$d == "All Years")
     gs |>
   plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y)))
+      layout(xaxis = list(title = "Goals"),
+             yaxis = list(title = if (input$y == "xG")
+                                     "Expected Goals"
+                                  else if (input$y == "npxG")
+                                     "Non-Penalty Expected Goals"
+                                  else if (input$y == "Dist")
+                                     "Average Shot Distance"
+                                  else if (input$y == "Sh/90")
+                                     "Shots per 90 Minutes"
+                                  else if (input$y == "SoT%")
+                                     "Shot on Target %"
+                                  else if (input$y == "SCA90")
+                                     "Shot Creation Actions per 90 Minutes"
+                                  else if (input$y == "prop_SCA_dead")
+                                     "Proportion of Shot Creating Actions from Dead Balls"
+                                  ))
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
    plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y)))
+      layout(xaxis = list(title = "Goals"),
+             yaxis = list(title = if (input$y == "xG")
+                                     "Expected Goals"
+                                  else if (input$y == "npxG")
+                                     "Non-Penalty Expected Goals"
+                                  else if (input$y == "Dist")
+                                     "Average Shot Distance"
+                                  else if (input$y == "Sh/90")
+                                     "Shots per 90 Minutes"
+                                  else if (input$y == "SoT%")
+                                     "Shot on Target %"
+                                  else if (input$y == "SCA90")
+                                     "Shot Creation Actions per 90 Minutes"
+                                  else if (input$y == "prop_SCA_dead")
+                                     "Proportion of Shot Creating Actions from Dead Balls"
+                                  ))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     gs |>
        plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y)))
+      layout(xaxis = list(title = "Goals"),
+             yaxis = list(title = if (input$y == "xG")
+                                     "Expected Goals"
+                                  else if (input$y == "npxG")
+                                     "Non-Penalty Expected Goals"
+                                  else if (input$y == "Dist")
+                                     "Average Shot Distance"
+                                  else if (input$y == "Sh/90")
+                                     "Shots per 90 Minutes"
+                                  else if (input$y == "SoT%")
+                                     "Shot on Target %"
+                                  else if (input$y == "SCA90")
+                                     "Shot Creation Actions per 90 Minutes"
+                                  else if (input$y == "prop_SCA_dead")
+                                     "Proportion of Shot Creating Actions from Dead Balls"
+                                  ))
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
        plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y)))
+      layout(xaxis = list(title = "Goals"),
+             yaxis = list(title = if (input$y == "xG")
+                                     "Expected Goals"
+                                  else if (input$y == "npxG")
+                                     "Non-Penalty Expected Goals"
+                                  else if (input$y == "Dist")
+                                     "Average Shot Distance"
+                                  else if (input$y == "Sh/90")
+                                     "Shots per 90 Minutes"
+                                  else if (input$y == "SoT%")
+                                     "Shot on Target %"
+                                  else if (input$y == "SCA90")
+                                     "Shot Creation Actions per 90 Minutes"
+                                  else if (input$y == "prop_SCA_dead")
+                                     "Proportion of Shot Creating Actions from Dead Balls"
+                                  ))
 })
 ```
 
@@ -118,13 +178,15 @@ renderPlot({
 gs |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
-  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) +
+  labs(y = "Count", fill = "Goal Performance")
   else 
   gs |>
     filter(Year %in% c(input$year3)) |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
-  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR"))
+  scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) +
+  labs(y = "Count", fill = "Goal Performance")
 })
 ```
 
@@ -148,7 +210,16 @@ inputPanel(
 renderPlot({
   ggplot(gs, aes(x = Rank, y = .data[[input$y3]])) +
     geom_boxplot() +
-    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W")) +
+    labs(y = switch(input$y3,
+                    "xG" = "Expected Goals",
+                    "Gls" = "Goals",
+                    "npxG" = "Non-Penalty Expected Goals",
+                    "Dist" = "Average Shot Distance",
+                    "Sh/90" = "Shots per 90 Minutes",
+                    "SoT%" = "Shot on Target %",
+                    "SCA90" = "Shot Creation Actions per 90 Minutes",
+                    "prop_SCA_dead" = "Proportion of Shot Creating Actions from Dead Balls"))
 })
 ```
 
@@ -164,22 +235,26 @@ renderPlot({
     if (input$yr == "All Years")
       gs |>
       ggplot(aes(x = `np:G-xG`)) +
-      geom_density() 
+      geom_density() +
+      labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams")
     else
       gs |>
         filter(Year %in% c(input$yr)) |>
         ggplot(aes(x = `np:G-xG`)) +
-        geom_density() 
+        geom_density() +
+        labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams")
   else
     if (input$yr == "All Years")
       gs |>
       ggplot(aes(x = `G-xG`)) +
-      geom_density() 
+      geom_density() +
+        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams")
     else
       gs |>
         filter(Year %in% c(input$yr)) |>
         ggplot(aes(x = `G-xG`)) +
-        geom_density() 
+        geom_density() +
+        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams")
 })
 ```
 
@@ -203,35 +278,111 @@ inputPanel(
                           "Proption of Touches in Defensive Third" = "prop_def_third",
                           "Proportion of Touches in Midfield Third" = "prop_mid_third",
                           "Proportion of Touches in Attacking Third" = "prop_att_third")),
-  selectInput("d", label = "Year",
+  selectInput("d1", label = "Year",
   choices = c("All Years", unique(ps$Year))),
-checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+checkboxInput("rank_pos1", "Show Final Placement", value = FALSE)
 )
 
 ps$Rank <- factor(ps$Rank, levels = legend_order)
 
 renderPlotly({
-   if (input$rank_pos) 
-    if (input$d == "All Years")
+   if (input$rank_pos1) 
+    if (input$d1 == "All Years")
     ps |>
   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year),
           height = 300) |>
-      layout(yaxis = list(title = (input$y2)))
+      layout(xaxis = list(title = "Possession"),
+             yaxis = list(title = if (input$y2 == "Att.x")
+                                     "Take-Ons Attempted"
+                                  else if (input$y2 == "xA")
+                                     "Expected Assists"
+                                  else if (input$y2 == "PrgP")
+                                     "Progressive Passes"
+                                  else if (input$y2 == "Def 3rd")
+                                     "Touches in Defensive Third"
+                                  else if (input$y2 == "Mid 3rd")
+                                     "Touches in Midfield Third"
+                                  else if (input$y2 == "Att 3rd")
+                                     "Touches in Attacking Third"
+                                  else if (input$y2 == "prop_def_third")
+                                     "Proption of Touches in Defensive Third"
+                                  else if (input$y2 == "prop_mid_third")
+                                     "Proportion of Touches in Midfield Third"
+                                  else if (input$y2 == "prop_att_third")
+                                     "Proportion of Touches in Attacking Third"
+                                  ))
     else 
        ps |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$d1)) |>
    plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y2)))
-  else if (!input$rank_pos)
-    if (input$d == "All Years")
+      layout(xaxis = list(title = "Possession"),
+             yaxis = list(title = if (input$y2 == "Att.x")
+                                     "Take-Ons Attempted"
+                                  else if (input$y2 == "xA")
+                                     "Expected Assists"
+                                  else if (input$y2 == "PrgP")
+                                     "Progressive Passes"
+                                  else if (input$y2 == "Def 3rd")
+                                     "Touches in Defensive Third"
+                                  else if (input$y2 == "Mid 3rd")
+                                     "Touches in Midfield Third"
+                                  else if (input$y2 == "Att 3rd")
+                                     "Touches in Attacking Third"
+                                  else if (input$y2 == "prop_def_third")
+                                     "Proption of Touches in Defensive Third"
+                                  else if (input$y2 == "prop_mid_third")
+                                     "Proportion of Touches in Midfield Third"
+                                  else if (input$y2 == "prop_att_third")
+                                     "Proportion of Touches in Attacking Third"
+                                  ))
+  else if (!input$rank_pos1)
+    if (input$d1 == "All Years")
     ps |>
        plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y2)))
+      layout(xaxis = list(title = "Possession"),
+             yaxis = list(title = if (input$y2 == "Att.x")
+                                     "Take-Ons Attempted"
+                                  else if (input$y2 == "xA")
+                                     "Expected Assists"
+                                  else if (input$y2 == "PrgP")
+                                     "Progressive Passes"
+                                  else if (input$y2 == "Def 3rd")
+                                     "Touches in Defensive Third"
+                                  else if (input$y2 == "Mid 3rd")
+                                     "Touches in Midfield Third"
+                                  else if (input$y2 == "Att 3rd")
+                                     "Touches in Attacking Third"
+                                  else if (input$y2 == "prop_def_third")
+                                     "Proption of Touches in Defensive Third"
+                                  else if (input$y2 == "prop_mid_third")
+                                     "Proportion of Touches in Midfield Third"
+                                  else if (input$y2 == "prop_att_third")
+                                     "Proportion of Touches in Attacking Third"
+                                  ))
     else 
        ps |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$d1)) |>
        plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
-      layout(yaxis = list(title = (input$y2)))
+      layout(xaxis = list(title = "Possession"),
+             yaxis = list(title = if (input$y2 == "Att.x")
+                                     "Take-Ons Attempted"
+                                  else if (input$y2 == "xA")
+                                     "Expected Assists"
+                                  else if (input$y2 == "PrgP")
+                                     "Progressive Passes"
+                                  else if (input$y2 == "Def 3rd")
+                                     "Touches in Defensive Third"
+                                  else if (input$y2 == "Mid 3rd")
+                                     "Touches in Midfield Third"
+                                  else if (input$y2 == "Att 3rd")
+                                     "Touches in Attacking Third"
+                                  else if (input$y2 == "prop_def_third")
+                                     "Proption of Touches in Defensive Third"
+                                  else if (input$y2 == "prop_mid_third")
+                                     "Proportion of Touches in Midfield Third"
+                                  else if (input$y2 == "prop_att_third")
+                                     "Proportion of Touches in Attacking Third"
+                                  ))
 })
 ```
 
@@ -241,22 +392,27 @@ inputPanel(
               choices = c("Defensive Third" = "prop_def_third",
                           "Middle Third" = "prop_mid_third",
                           "Attacking Third" = "prop_att_third")), 
-  selectInput("d", "Year",
+  selectInput("d2", "Year",
 choices = c("All Years", unique(ps$Year))),
   sliderInput("pdt", label = "Proportion of Total Touches in Third",
               min = 0.1, max = 0.6, value = .32, step = .02)
 )
 renderPlot({
-  if (input$d == "All Years")
+  if (input$d2 == "All Years")
   ps |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
-    labs(x = "Possession") +
+    labs(x = "Possession",
+         y = switch(input$third,
+                    "prop_def_third" = "Defensive Third",
+                    "prop_mid_third" = "Middle Third",
+                    "prop_att_third" = "Attacking Third"
+)) +
     theme_clean()
   else 
   ps |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$d2)) |>
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
@@ -287,7 +443,18 @@ inputPanel(
 renderPlot({
   ggplot(ps, aes(x = Rank, y = .data[[input$y1]])) +
     geom_boxplot() +
-    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W")) +
+    labs(y = switch(input$y1,
+                    "takeons_attempted_90" = "Take-Ons Attempted per Match",
+                    "xA" = "Expected Assists",
+                    "PrgP_90" = "Progressive Passes per Match",
+                    "def_third_touches_90" = "Touches in Defensive Third per Match", 
+                    "mid_third_touches_90" = "Touches in Midfield Third per Match",
+                    "att_third_touches_90" = "Touches in Attacking Third per Match",
+                    "PrgC_90" = "Progressive Carries per Match",
+                    "Cmp%" = "Pass Completion %",
+                    "crosses_90" = "Crosses per Match",
+                    "kp_90" = "Key Passes per Match"))
 })
 ```
 
@@ -301,12 +468,14 @@ renderPlot({
   if (input$yr2 == "All Years")
     ps |>
     ggplot(aes(x = `A-xAG`)) +
-    geom_density() 
+    geom_density() +
+    labs(x = "Assists minus Expected Goals Assisted", y = "Proportion of Teams")
   else
     ps |>
       filter(Year %in% c(input$yr2)) |>
       ggplot(aes(x = `A-xAG`)) +
-      geom_density() 
+      geom_density() +
+    labs(x = "Assists minus Expected Goals Assisted", y = "Proportion of Teams")
 })
 ```
 
@@ -330,38 +499,106 @@ inputPanel(
                           "Tackles Won" = "TklW",
                           "Interceptions" = "Int",
                           "Blocks (Shots + Passes)" = "Blocks")),
-  selectInput("d", label = "Year",
+  selectInput("d3", label = "Year",
   choices = c("All Years", unique(ds$Year))),
-checkboxInput("rank_pos", "Show Final Placement", value = FALSE)
+checkboxInput("rank_pos2", "Show Final Placement", value = FALSE)
 )
 
 ds$Rank <- factor(ds$Rank, levels = legend_order)
 
 renderPlotly({
-   if (input$rank_pos) 
-    if (input$d == "All Years")
+   if (input$rank_pos2) 
+    if (input$d3 == "All Years")
     ds |>
   plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
     layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
-           yaxis = list(title = input$dsv))
+           xaxis = list(title = "Goals Against per 90 minutes"),
+           yaxis = list(title = if (input$dsv == "Save%")
+                                     "Save Percentage"
+                                  else if (input$dsv == "SoTA")
+                                     "Shots on Target Against"
+                                  else if (input$dsv == "PSxG")
+                                     "Expected Goals Conceded"
+                                  else if (input$dsv == "PSxG+/-")
+                                     "Expected Goals Conceded minus Goals Allowed"
+                                  else if (input$dsv == "Opp")
+                                     "Crosses Faced"
+                                  else if (input$dsv == "TklW")
+                                     "Tackles Won"
+                                  else if (input$dsv == "Int")
+                                     "Interceptions"
+                                  else if (input$dsv == "Blocks")
+                                     "Blocks (Shots + Passes)"
+                                  ))
     else 
        ds |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$d3)) |>
    plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
   layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
-           yaxis = list(title = input$dsv))
-  else if (!input$rank_pos)
-    if (input$d == "All Years")
+           xaxis = list(title = "Goals Against per 90 minutes"),
+         yaxis = list(title = if (input$dsv == "Save%")
+                                     "Save Percentage"
+                                  else if (input$dsv == "SoTA")
+                                     "Shots on Target Against"
+                                  else if (input$dsv == "PSxG")
+                                     "Expected Goals Conceded"
+                                  else if (input$dsv == "PSxG+/-")
+                                     "Expected Goals Conceded minus Goals Allowed"
+                                  else if (input$dsv == "Opp")
+                                     "Crosses Faced"
+                                  else if (input$dsv == "TklW")
+                                     "Tackles Won"
+                                  else if (input$dsv == "Int")
+                                     "Interceptions"
+                                  else if (input$dsv == "Blocks")
+                                     "Blocks (Shots + Passes)"
+                                  ))
+  else if (!input$rank_pos2)
+    if (input$d3 == "All Years")
     ds |>
        plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
   layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
-           yaxis = list(title = input$dsv))
+           xaxis = list(title = "Goals Against per 90 minutes"),
+           yaxis = list(title = if (input$dsv == "Save%")
+                                     "Save Percentage"
+                                  else if (input$dsv == "SoTA")
+                                     "Shots on Target Against"
+                                  else if (input$dsv == "PSxG")
+                                     "Expected Goals Conceded"
+                                  else if (input$dsv == "PSxG+/-")
+                                     "Expected Goals Conceded minus Goals Allowed"
+                                  else if (input$dsv == "Opp")
+                                     "Crosses Faced"
+                                  else if (input$dsv == "TklW")
+                                     "Tackles Won"
+                                  else if (input$dsv == "Int")
+                                     "Interceptions"
+                                  else if (input$dsv == "Blocks")
+                                     "Blocks (Shots + Passes)"
+                                  ))
     else 
        ds |>
-    filter(Year %in% c(input$d)) |>
+    filter(Year %in% c(input$d3)) |>
        plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
        layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
-           yaxis = list(title = input$dsv))
+           xaxis = list(title = "Goals Against per 90 minutes"),
+           yaxis = list(title = if (input$dsv == "Save%")
+                                     "Save Percentage"
+                                  else if (input$dsv == "SoTA")
+                                     "Shots on Target Against"
+                                  else if (input$dsv == "PSxG")
+                                     "Expected Goals Conceded"
+                                  else if (input$dsv == "PSxG+/-")
+                                     "Expected Goals Conceded minus Goals Allowed"
+                                  else if (input$dsv == "Opp")
+                                     "Crosses Faced"
+                                  else if (input$dsv == "TklW")
+                                     "Tackles Won"
+                                  else if (input$dsv == "Int")
+                                     "Interceptions"
+                                  else if (input$dsv == "Blocks")
+                                     "Blocks (Shots + Passes)"
+                                  ))
 })
 ```
 
@@ -380,7 +617,14 @@ inputPanel(
 renderPlot({
   ggplot(ds, aes(.data[[input$x_var]], Squad)) +
     geom_line(aes(group = Squad)) +
-    geom_point(aes(color = save_performance))
+    geom_point(aes(color = save_performance)) +
+    labs(color = "Save Performance", x = switch(input$x_var,
+                    "prop_tkl_w" = "Proportion Tackles Won",
+                    "Tkl%" = "Percent of Dribblers Tackled",
+                    "Lost" = "Challenges Lost",
+                    "Sh" = "Shots Blocked",
+                    "Int" = "Interceptions",
+                    "Err" = "Errors"))
 },
 height = 1000)
 ```
@@ -407,7 +651,18 @@ inputPanel(
 renderPlot({
   ggplot(ds, aes(x = Rank, y = .data[[input$dsv1]])) +
     geom_boxplot() +
-    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W"))
+    scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W")) +
+    labs(y = switch(input$dsv1,
+                    "GA90" = "Goals Allowed per 90 Minutes",
+                    "Save%" = "Save Percentage",
+                    "PSxG" = "Post-Shot Expected Goals",
+                    "PSxG+/-" = "Post-Shot Expected Goals - Goals Allowed",
+                    "opp_90" = "Crossed Attempted Against per Match", 
+                    "tkl_90" = "Tackles per Match",
+                    "int_90" = "Interceptions per Match",
+                    "tkl_int_90" = "Tackles + Interceptions per Match",
+                    "def_3rd_90" = "Tackles in Defensive Third per Match",
+                    "att_3rd_90" = "Tackles in Attacking Third per Match"))
 })
 ```
 
@@ -423,22 +678,26 @@ renderPlot({
     if (input$yr3 == "All Years")
       ds |>
       ggplot(aes(x = `PSxG+/-`)) +
-      geom_density() 
+      geom_density() +
+      labs(x = "Post-Shot Expected Goals minus Goals Allowed", y = "Proportion of Teams")
     else
       ds |>
         filter(Year %in% c(input$yr3)) |>
         ggplot(aes(x = `PSxG+/-`)) +
-        geom_density() 
+        geom_density() +
+      labs(x = "Post-Shot Expected Goals minus Goals Allowed", y = "Proportion of Teams")
   else
     if (input$yr3 == "All Years")
       ds |>
       ggplot(aes(x = `/90`)) +
-      geom_density() 
+      geom_density() +
+      labs(x = "Post-Shot Expected Goals minus Goals Allowed per 90 Minutes", y = "Proportion of Teams")
     else
       ds |>
         filter(Year %in% c(input$yr3)) |>
         ggplot(aes(x = `/90`)) +
-        geom_density() 
+        geom_density() +
+      labs(x = "Post-Shot Expected Goals minus Goals Allowed per 90 Minutes", y = "Proportion of Teams")
 })
 ```
 
@@ -464,7 +723,8 @@ plot_ly(
   y = ~Squad, 
   x = ~variable,
   z = ~value,
-  type = "heatmap")
+  type = "heatmap") |>
+  layout(xaxis = list(title = "Variable"), fill = list(title = "Value"))
 })
 
 renderTable({
