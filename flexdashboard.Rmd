@@ -21,6 +21,8 @@ library(plotly)
 library(flexdashboard)
 library(ggthemes)
 library(shinyWidgets)
+library(reshape2)
+library(gt)
 ```
 
 ```{r, echo = FALSE}
@@ -447,5 +449,12 @@ plot_ly(
   x = ~variable,
   z = ~value,
   type = "heatmap")
+})
+
+renderTable({
+  total_s |>
+    select(Squad, Rank, Year) |>
+    filter(Year %in% c(input$yr4)) |>
+    gt()
 })
 ```
