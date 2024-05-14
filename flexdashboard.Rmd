@@ -87,19 +87,23 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
    if (input$rank_pos) 
     if (input$d == "All Years")
     gs |>
-  plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) 
+  plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y)))
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
-   plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+   plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y)))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     gs |>
-       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y)))
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
-       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~Gls, y = ~.data[[input$y]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y)))
 })
 ```
 
@@ -211,19 +215,23 @@ renderPlotly({
     if (input$d == "All Years")
     ps |>
   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year),
-          height = 300) 
+          height = 300) |>
+      layout(yaxis = list(title = (input$y2)))
     else 
        ps |>
     filter(Year %in% c(input$d)) |>
-   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+   plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y2)))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     ps |>
-       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y2)))
     else 
        ps |>
     filter(Year %in% c(input$d)) |>
-       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~Poss, y = ~.data[[input$y2]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+      layout(yaxis = list(title = (input$y2)))
 })
 ```
 
@@ -339,15 +347,21 @@ renderPlotly({
     else 
        ds |>
     filter(Year %in% c(input$d)) |>
-   plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+   plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', color = ~ Rank, text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+  layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
+           yaxis = list(title = input$dsv))
   else if (!input$rank_pos)
     if (input$d == "All Years")
     ds |>
-       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+  layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
+           yaxis = list(title = input$dsv))
     else 
        ds |>
     filter(Year %in% c(input$d)) |>
-       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300)
+       plot_ly(x = ~GA90, y = ~.data[[input$dsv]], type = 'scatter', mode = 'markers', text = ~paste("Team: ", Squad, '<br>Year: ', Year), height = 300) |>
+       layout(legend = list(c("W", "F", "SF", "QF", "R16", "GR")),
+           yaxis = list(title = input$dsv))
 })
 ```
 
