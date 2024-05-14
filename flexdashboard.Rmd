@@ -260,16 +260,16 @@ Column
 inputPanel(
   selectInput("y1", label = "Y-Axis Variable",
               choices = c(
-                           "Take-Ons Attempted per Match" = "takeons_attempted_per_game",
+                           "Take-Ons Attempted per Match" = "takeons_attempted_90",
                           "Expected Assists" = "xA",
-                          "Progressive Passes per Match" = "PrgP_per_game",
-                          "Touches in Defensive Third per Match" = "def_third_touches_per_game", 
-                          "Touches in Midfield Third per Match" = "mid_third_touches_per_game",
-                          "Touches in Attacking Third per Match" = "att_third_touches_per_game",
-                          "Progressive Carries per Match" = "PrgC_per_game",
+                          "Progressive Passes per Match" = "PrgP_90",
+                          "Touches in Defensive Third per Match" = "def_third_touches_90", 
+                          "Touches in Midfield Third per Match" = "mid_third_touches_90",
+                          "Touches in Attacking Third per Match" = "att_third_touches_90",
+                          "Progressive Carries per Match" = "PrgC_90",
                           "Pass Completion %" = "Cmp%",
-                          "Crosses per Match" = "crosses_per_game",
-                          "Key Passes per Match" = "kp_per_game"))
+                          "Crosses per Match" = "crosses_90",
+                          "Key Passes per Match" = "kp_90"))
 )
 
 renderPlot({
@@ -358,12 +358,12 @@ inputPanel(
                           "Save Percentage" = "Save%",
                           "Post-Shot Expected Goals" = "PSxG",
                           "Post-Shot Expected Goals - Goals Allowed" = "PSxG+/-",
-                          "Crossed Attempted" = "Opp", 
-                          "Tackles" = "Tkl",
-                          "Interceptions" = "Int",
-                          "Tackles + Interceptions" = "Tkl+Int",
-                          "Tackles in Defensive Third" = "Def 3rd",
-                      "Tackles in Attacking Third" = "Att 3rd"))
+                          "Crossed Attempted Against per Match" = "opp_90", 
+                          "Tackles per Match" = "tkl_90",
+                          "Interceptions per Match" = "int_90",
+                          "Tackles + Interceptions per Match" = "tkl_int_90",
+                          "Tackles in Defensive Third per Match" = "def_3rd_90",
+                      "Tackles in Attacking Third per Match" = "att_3rd_90"))
 )
 
 renderPlot({

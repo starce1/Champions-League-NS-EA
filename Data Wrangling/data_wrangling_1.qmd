@@ -352,7 +352,7 @@ goalkeeping21.22 <- goalkeeping21.22[-1,-21]
 ```
 
 ```{r}
-advancedgoalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2020-2021/keepersadv/2021-2022-Champions-League-Stats")
+advancedgoalkeeping21.22 <- read_html("https://fbref.com/en/comps/8/2021-2022/keepersadv/2021-2022-Champions-League-Stats")
 
 table <- html_nodes(advancedgoalkeeping21.22, css = "table")
 
@@ -836,16 +836,22 @@ ps <- rbind(ps22.23, ps21.22, ps20.21, ps19.20, ps18.19) |>
          prop_def_third = `Def 3rd`/Touches,
          prop_mid_third = `Mid 3rd`/Touches,
          prop_att_third = `Att 3rd`/Touches,
-         kp_per_game = KP/`90s.x`,
-crosses_per_game = CrsPA/`90s.x`,
-PrgP_per_game = PrgP/`90s.x`,
-PrgC_per_game = PrgC/`90s.x`,
-takeons_attempted_per_game = Att.x/`90s.x`,
-def_third_touches_per_game = `Def 3rd`/`90s.x`,
-mid_third_touches_per_game = `Mid 3rd`/`90s.x`,
-att_third_touches_per_game = `Att 3rd`/`90s.x`)
+         kp_90 = KP/`90s.x`,
+crosses_90 = CrsPA/`90s.x`,
+PrgP_90 = PrgP/`90s.x`,
+PrgC_90 = PrgC/`90s.x`,
+takeons_attempted_90 = Att.x/`90s.x`,
+def_third_touches_90 = `Def 3rd`/`90s.x`,
+mid_third_touches_90 = `Mid 3rd`/`90s.x`,
+att_third_touches_90 = `Att 3rd`/`90s.x`)
 ds <- rbind(ds22.23, ds21.22, ds20.21, ds19.20, ds18.19) |>
-  select(1, 63, 2:62)
+  select(1, 63, 2:62) |>
+   mutate(opp_90 = Opp/`90s.x`,
+         tkl_90 = Tkl/`90s.x`,
+         int_90 = Int/`90s.x`, 
+         tkl_int_90 = `Tkl+Int`/`90s.x`,
+         def_3rd_90 = `Def 3rd`/`90s.x`,
+         att_3rd_90 = `Att 3rd`/`90s.x`)
 ```
 
 ## **WRITING THE CSV FILES!!!**
