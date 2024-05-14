@@ -62,3 +62,11 @@ ggplot(gs) +
   scale_x_discrete(limits = c("1", "2", "SF", "QF", "R16", "GR"))
 })
 ```
+
+
+```{r}
+ggplot(ds, aes(Lost, Squad)) +
+  geom_line(aes(group = Squad)) +
+  geom_point(aes(color = save_performance))
+```
+

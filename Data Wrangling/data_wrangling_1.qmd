@@ -851,7 +851,8 @@ ds <- rbind(ds22.23, ds21.22, ds20.21, ds19.20, ds18.19) |>
          int_90 = Int/`90s.x`, 
          tkl_int_90 = `Tkl+Int`/`90s.x`,
          def_3rd_90 = `Def 3rd`/`90s.x`,
-         att_3rd_90 = `Att 3rd`/`90s.x`)
+         att_3rd_90 = `Att 3rd`/`90s.x`,
+         save_performance = ifelse(`PSxG+/-` > 0, "Overperformed", "Underperformed"))
 ```
 
 ## **WRITING THE CSV FILES!!!**
