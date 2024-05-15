@@ -440,7 +440,6 @@ inputPanel(
   selectInput("y1", label = "Y-Axis Variable",
               choices = c(
                            "Take-Ons Attempted per Match" = "takeons_attempted_90",
-                          "Expected Assists" = "xA",
                           "Progressive Passes per Match" = "PrgP_90",
                           "Touches in Defensive Third per Match" = "def_third_touches_90", 
                           "Touches in Midfield Third per Match" = "mid_third_touches_90",
@@ -457,7 +456,6 @@ renderPlot({
     scale_x_discrete(limits = c("GR", "R16", "QF", "SF", "F", "W")) +
     labs(y = switch(input$y1,
                     "takeons_attempted_90" = "Take-Ons Attempted per Match",
-                    "xA" = "Expected Assists",
                     "PrgP_90" = "Progressive Passes per Match",
                     "def_third_touches_90" = "Touches in Defensive Third per Match", 
                     "mid_third_touches_90" = "Touches in Midfield Third per Match",
