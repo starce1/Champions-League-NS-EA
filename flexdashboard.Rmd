@@ -103,7 +103,7 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
                                      "Shot Creating Actions per 90 Minutes"
                                   else if (input$y == "prop_SCA_dead")
                                      "Proportion of Shot Creating Actions from Dead Balls"
-                                  ))
+                                  ), title = "Effect of Goal Creation Statistics on Goals Scored")
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
@@ -123,7 +123,7 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
                                      "Shot Creating Actions per 90 Minutes"
                                   else if (input$y == "prop_SCA_dead")
                                      "Proportion of Shot Creating Actions from Dead Balls"
-                                  ))
+                                  ), title = "Effect of Goal Creation Statistics on Goals Scored")
   else if (!input$rank_pos)
     if (input$d == "All Years")
     gs |>
@@ -143,7 +143,7 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
                                      "Shot Creating Actions per 90 Minutes"
                                   else if (input$y == "prop_SCA_dead")
                                      "Proportion of Shot Creating Actions from Dead Balls"
-                                  ))
+                                  ), title = "Effect of Goal Creation Statistics on Goals Scored")
     else 
        gs |>
     filter(Year %in% c(input$d)) |>
@@ -163,7 +163,7 @@ gs$Rank <- factor(gs$Rank, levels = legend_order)
                                      "Shot Creating Actions per 90 Minutes"
                                   else if (input$y == "prop_SCA_dead")
                                      "Proportion of Shot Creating Actions from Dead Balls"
-                                  ))
+                                  ), title = "Effect of Goal Creation Statistics on Goals Scored")
 })
 ```
 
@@ -179,7 +179,7 @@ gs |>
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
   scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) +
-  labs(y = "Count", fill = "Goal Performance") +
+  labs(y = "Count", fill = "Goal Performance", title = "Does Goal Performance Influence Placement?") +
     theme_minimal()
   else 
   gs |>
@@ -187,7 +187,7 @@ ggplot() +
 ggplot() +
   geom_bar(aes(x = Rank, fill = performance)) +
   scale_x_discrete(limits = c("W", "F", "SF", "QF", "R16", "GR")) +
-  labs(y = "Count", fill = "Goal Performance") +
+  labs(y = "Count", fill = "Goal Performance", title = "Does Goal Performance Influence Placement") +
     theme_clean()
 })
 ```
@@ -243,28 +243,28 @@ renderPlot({
       gs |>
       ggplot(aes(x = `np:G-xG`)) +
       geom_density() +
-      labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty") +
+      labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty)") +
     theme_clean()
     else
       gs |>
         filter(Year %in% c(input$yr)) |>
         ggplot(aes(x = `np:G-xG`)) +
         geom_density() +
-        labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty") +
+        labs(x = "Non-Penalty Goals minus Non-Penalty Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty)") +
     theme_clean()
   else
     if (input$yr == "All Years")
       gs |>
       ggplot(aes(x = `G-xG`)) +
       geom_density() +
-        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty") +
+        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty)") +
     theme_clean()
     else
       gs |>
         filter(Year %in% c(input$yr)) |>
         ggplot(aes(x = `G-xG`)) +
         geom_density() +
-        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty") +
+        labs(x = "Goals minus Expected Goals", y = "Proportion of Teams", title = "Distribution of Goals Minus Expected Goals Values (Penalty and non-Penalty)") +
     theme_clean()
 })
 ```
@@ -321,7 +321,7 @@ renderPlotly({
                                      "Proportion of Touches in Midfield Third"
                                   else if (input$y2 == "prop_att_third")
                                      "Proportion of Touches in Attacking Third"
-                                  ))
+                                  ), title = "Effect of Passing and Possession Statistics on Average Possession")
     else 
        ps |>
     filter(Year %in% c(input$d1)) |>
@@ -345,7 +345,7 @@ renderPlotly({
                                      "Proportion of Touches in Midfield Third"
                                   else if (input$y2 == "prop_att_third")
                                      "Proportion of Touches in Attacking Third"
-                                  ))
+                                  ), title = "Effect of Passing and Possession Statistics on Average Possession")
   else if (!input$rank_pos1)
     if (input$d1 == "All Years")
     ps |>
@@ -369,7 +369,7 @@ renderPlotly({
                                      "Proportion of Touches in Midfield Third"
                                   else if (input$y2 == "prop_att_third")
                                      "Proportion of Touches in Attacking Third"
-                                  ))
+                                  ), title = "Effect of Passing and Possession Statistics on Average Possession")
     else 
        ps |>
     filter(Year %in% c(input$d1)) |>
@@ -393,7 +393,7 @@ renderPlotly({
                                      "Proportion of Touches in Midfield Third"
                                   else if (input$y2 == "prop_att_third")
                                      "Proportion of Touches in Attacking Third"
-                                  ))
+                                  ), title = "Effect of Passing and Possession Statistics on Average Possession")
 })
 ```
 
@@ -543,7 +543,7 @@ renderPlotly({
                                      "Interceptions"
                                   else if (input$dsv == "Blocks")
                                      "Blocks (Shots + Passes)"
-                                  ))
+                                  ), title = "Effect of Defensive Statistics on Goals Allowed per 90 Minutes")
     else 
        ds |>
     filter(Year %in% c(input$d3)) |>
@@ -566,7 +566,7 @@ renderPlotly({
                                      "Interceptions"
                                   else if (input$dsv == "Blocks")
                                      "Blocks (Shots + Passes)"
-                                  ))
+                                  ), title = "Effect of Defensive Statistics on Goals Allowed per 90 Minutes")
   else if (!input$rank_pos2)
     if (input$d3 == "All Years")
     ds |>
@@ -589,7 +589,7 @@ renderPlotly({
                                      "Interceptions"
                                   else if (input$dsv == "Blocks")
                                      "Blocks (Shots + Passes)"
-                                  ))
+                                  ), title = "Effect of Defensive Statistics on Goals Allowed per 90 Minutes")
     else 
        ds |>
     filter(Year %in% c(input$d3)) |>
@@ -612,7 +612,7 @@ renderPlotly({
                                      "Interceptions"
                                   else if (input$dsv == "Blocks")
                                      "Blocks (Shots + Passes)"
-                                  ))
+                                  ), title = "Effect of Defensive Statistics on Goals Allowed per 90 Minutes")
 })
 ```
 
@@ -638,7 +638,8 @@ renderPlot({
                     "Lost" = "Challenges Lost",
                     "Sh" = "Shots Blocked",
                     "Int" = "Interceptions",
-                    "Err" = "Errors")) +
+                    "Err" = "Errors"), 
+         title = "Relationship Between Save Performance and Various Defensive Statistics", subtitle = "Data includes all teams that played in Champions League between 2018-2023") +
     theme_clean()
 },
 height = 1000)
