@@ -40,7 +40,7 @@ Column {data-width = 400}
 
 #### Background Information
 
-In this Shiny app, we investigate many of the subtle variables of that affect the outcome of a soccer game. Using the UFEA Champions League statistics from the 2018-2023 seasons, we compare certain skills in different game situation throughout time.
+In this Shiny app, we investigate many of the subtle variables of that affect the outcome of a soccer game. Using the UFEA Champions League statistics from the 2018-2023 seasons, we compare certain variables in different game situations throughout time.
 
 Data source:  [FBREF Database](https://fbref.com/en/comps/8/history/Champions-League-Seasons)
 
@@ -225,7 +225,7 @@ renderPlot({
                     "SCA90" = "Shot Creating Actions per 90 Minutes",
                     "prop_SCA_dead" = "Proportion of Shot Creating Actions from Dead Balls",
                     "G/SoT" = "Goals per Shot on Target", 
-                    "G-xG" = "Goals Minus Expected Goals")) +
+                    "G-xG" = "Goals Minus Expected Goals"), title = "Goal Creation Statistical Averages by Champions League Placement") +
     theme_clean()
 })
 ```
@@ -419,7 +419,7 @@ renderPlot({
                     "prop_def_third" = "Defensive Third",
                     "prop_mid_third" = "Middle Third",
                     "prop_att_third" = "Attacking Third"
-)) +
+), title = "Relationship Between Proportion of Touches in Third of Pitch and Overall Possession") +
     theme_clean()
   else 
   ps |>
@@ -427,7 +427,7 @@ renderPlot({
     filter(.data[[input$third]] >= (input$pdt)) |>
     ggplot() +
     geom_point(aes(x = Poss, y = .data[[input$third]], color = Rank)) +
-      labs(x = "Possession") +
+      labs(x = "Possession", title = "Relationship Between Proportion of Touches in Third of Pitch and Overall Possession") +
     theme_clean()
 }, height = 400)
 ```
@@ -463,7 +463,7 @@ renderPlot({
                     "PrgC_90" = "Progressive Carries per Match",
                     "Cmp%" = "Pass Completion %",
                     "crosses_90" = "Crosses per Match",
-                    "kp_90" = "Key Passes per Match")) +
+                    "kp_90" = "Key Passes per Match"), title = "Passing and Possession Statistical Averages by Champions League Placement") +
     theme_clean()
 })
 ```
@@ -676,7 +676,7 @@ renderPlot({
                     "int_90" = "Interceptions per Match",
                     "tkl_int_90" = "Tackles + Interceptions per Match",
                     "def_3rd_90" = "Tackles in Defensive Third per Match",
-                    "att_3rd_90" = "Tackles in Attacking Third per Match")) +
+                    "att_3rd_90" = "Tackles in Attacking Third per Match"), title = "Defensive Statistical Averages by Champions League Placement") +
     theme_clean()
 })
 ```
@@ -744,8 +744,7 @@ plot_ly(
   z = ~value,
   type = "heatmap",
   height = 750) |>
-  layout(xaxis = list(title = "Variable"), fill = list(title = "Value"),
-         zaxis = list(title = "Value"))
+  layout(xaxis = list(title = ""), zaxis = list(title = "Value"), title = "Overall Statistical Performance by Team")
 })
 ```
 
