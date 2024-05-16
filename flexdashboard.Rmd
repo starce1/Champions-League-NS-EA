@@ -230,6 +230,11 @@ renderPlot({
 })
 ```
 
+*Commentary:*
+
+
+
+
 ```{r, echo = FALSE}
 inputPanel(
   selectInput("yr", "Year",
@@ -447,7 +452,8 @@ inputPanel(
                           "Progressive Carries per Match" = "PrgC_90",
                           "Pass Completion %" = "Cmp%",
                           "Crosses per Match" = "crosses_90",
-                          "Key Passes per Match" = "kp_90"))
+                          "Key Passes per Match" = "kp_90",
+                          "Possession" = "Poss"))
 )
 
 renderPlot({
@@ -463,10 +469,17 @@ renderPlot({
                     "PrgC_90" = "Progressive Carries per Match",
                     "Cmp%" = "Pass Completion %",
                     "crosses_90" = "Crosses per Match",
-                    "kp_90" = "Key Passes per Match"), title = "Passing and Possession Statistical Averages by Champions League Placement") +
+                    "kp_90" = "Key Passes per Match", 
+                    "Poss" = "Possession"), title = "Passing and Possession Statistical Averages by Champions League Placement") +
     theme_clean()
-})
+}, height = 400)
 ```
+
+
+*Commentary:*
+
+Generally, higher attacking-minded passing/possession statistics (expected assists, touches in attacking third, progressive passes/carries) translate to better performance in the Champions League. This makes sense, as better performing teams are (1) likely to score more goals and (2) have more attacking output due to having higher overall possession and player more adept at creating goal-scoring opportunities. This is also supported by the trends in proportion of touches in specific thirds of the field. From the graph in the bottom left, we see a negative trend in proportion of touches in defensive third and possession so, thus, a negative correlation between touches in the defensive third and performance. Year after year, we see lesser teams rely on long balls and set pieces opportunities to create goal-scoring opportunities opposed to maintaining possession and progressing the ball upfield, so this finding makes sense. 
+
 
 ```{r, echo = FALSE}
 inputPanel(
@@ -488,8 +501,9 @@ renderPlot({
       geom_density() +
     labs(x = "Assists minus Expected Goals Assisted", y = "Proportion of Teams", title = "Distribution of Assists Minus Expected Assists Values") +
     theme_clean()
-})
+}, height = 400)
 ```
+
 
 Defending and Goalkeeping
 ================================
@@ -721,7 +735,11 @@ renderPlot({
 ```
 
 
-Conclusion
+*Commentary:*
+
+Naturally, it makes sense that goals conceded (and similar metrics) is positively correlated with performance: if you concede less goals, you're going to win more games. However, many per match defensive statistics produced interest results. For instance, tackles and interceptions per match is negatively correlated. While, at first, you might assume that higher performing teams will have greater numbers of defensive actions, a deeper analysis changes this narrative. As, seen by possession statistics, higher performing teams have more of the ball, there is less opportunity for better performing teams to tackle and intercept the ball as they have more of it and, more often than not, team's going against them will often give the ball away on their own. Our Cleveland Dotplot measuring the relationship between proportion of tackles won and save performance produced interesting results in that there is little correlation between the two variables. While, yes, winning a higher proportion of tackles does suggest better defensive performance, a multitude of over factor influence the shots conceded by a team, meaning we must create more visualizations to find out what influences over or under performance.
+
+Summarization
 ================================
 
 Column
@@ -758,3 +776,7 @@ renderTable({
     gt()
 })
 ```
+
+
+Conclusion
+================================
