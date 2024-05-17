@@ -1,0 +1,12 @@
+name: Champions_League_Progression
+title: Champions_League_Progression
+username: evanatchison
+account: evanatchison
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12019820
+bundleId: 8626113
+url: https://evanatchison.shinyapps.io/Champions_League_Progression/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
