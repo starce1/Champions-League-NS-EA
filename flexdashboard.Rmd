@@ -46,6 +46,11 @@ Data source:  [FBREF Database](https://fbref.com/en/comps/8/history/Champions-Le
 
 [UFEA Champions League Official Website](https://www.uefa.com/uefachampionsleague/)
 
+If you would like to access the source code for this project, follow [this link](https://github.com/starce1/Champions-League-NS-EA) and click the download button and open the documents in a folder in R Studio.
+
+Column
+---------------------------
+
 ```{r, echo=FALSE}
 
 renderImage({
